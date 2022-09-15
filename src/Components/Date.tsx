@@ -1,15 +1,25 @@
 import { iDate } from "./calendar.utility";
 
+
 interface DateType extends iDate {
-    currentMonth: boolean
+    isCurrentMonth: boolean,
+    isActive: boolean,
+    setActive: (value: iDate) => void
 }
 
-export default function Date({date, month, year, currentMonth}: DateType) {
+export default function DateComponent({date, month, year, isCurrentMonth, isActive, setActive}: DateType) {
+    const currentDate = new Date();
+    const isCurrentDate = currentDate.getFullYear() === year &&
+        currentDate.getMonth() === month &&
+        currentDate.getDate() === date;
+    
+    let dateClass = 'date';
+    if (isCurrentMonth) dateClass += ' current-month';
+    if (isCurrentDate) dateClass += ' current-date';
+    if (isActive) dateClass += ' active-date';
+
     return (
-        <div
-            className={`date${currentMonth ? ' current-month' : ''}`}
-            key={`${date < 10 ? `0${date}` : date}${month < 10 ? `0${month}` : month}${year}`}
-        >
+        <div className={dateClass} onClick={() => setActive({ date, month, year })}>
             {date}
         </div>
     )

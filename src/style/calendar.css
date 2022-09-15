@@ -93,4 +93,13 @@
 
 .date.current-month {
     color: #000;
+    font-weight: 600;
+}
+
+.date.current-date {
+    background: #cee8ff;
+}
+
+.date.active-date {
+    border: solid 2px #4588c4;
 }
