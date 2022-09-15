@@ -24,7 +24,7 @@ export default function CalendarSwicther({ changeYearHandler, changeMonthHandler
     }
 
     return (
-        <div>
+        <div className="calendar-switcher">
             <select value={activeMonth} onChange={(e) => changeMonth(Number(e.target.value))}>
                 {monthes.map((month, index) =>
                     <option key={index} value={index}>{month}</option>

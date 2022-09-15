@@ -1,4 +1,5 @@
 import { getDatesArray } from "./calendar.utility"
+import Date from "./Date";
 
 type DatesType = {
     month: number,
@@ -11,10 +12,13 @@ export default function Dates({month, year, firstWeekDay}: DatesType) {
 
     return (
         <div className="dates week">
-            {datesArray.map((date, index) => 
-                <div className="date" key={index}>
-                    {date}
-                </div>
+            {datesArray.map(({date, year, ...item}) => 
+                <Date
+                    date={date}
+                    month={month}
+                    year={year}
+                    currentMonth={item.month === month} 
+                />
             )}
         </div>
     )

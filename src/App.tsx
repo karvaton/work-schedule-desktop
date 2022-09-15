@@ -6,7 +6,9 @@ import './style/App.css';
 function App() {
     return (
         <div className="App">
-            <Calendar />
+            <main>
+                <Calendar />
+            </main>
         </div>
     );
 }

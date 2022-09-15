@@ -7,11 +7,25 @@ export function getMonthLength(
     return lastDate || 31;
 }
 
-
-export function createDatesArray(start: number, end: number) {
+export interface iDate {
+    date: number,
+    month: number,
+    year: number
+}
+export function createDatesArray(
+    start: number, 
+    end: number, 
+    month: number = new Date().getMonth(), 
+    year: number = new Date().getFullYear()
+): iDate[] {
     const datesArray = [];    
     for (let i = start; i <= end; i++) {
-        datesArray.push(i);
+        const date = {
+            date: i,
+            month,
+            year
+        }
+        datesArray.push(date);
     }
     return datesArray;
 }
@@ -32,22 +46,23 @@ export function getDatesArray(
 ) {
     const monthLength = getMonthLength(month, year);
     const prevMonthLength = getMonthLength(month - 1, year);
-    const currentMonth = createDatesArray(1, monthLength);
+    const currentMonth = createDatesArray(1, monthLength, month, year);
     let startDay = new Date(year, month, 1).getDay() - 1 - shift;
     if (startDay < 0) {
         startDay = startDay + 7;
     }
 
-    const prevMonth = createDatesArray(prevMonthLength - startDay, prevMonthLength);
+    const prevMonth = createDatesArray(prevMonthLength - startDay, prevMonthLength, month - 1, year - 1);
     let lastDay = new Date(year, month, monthLength).getDay() + 1 - shift;
     if (lastDay < 0) {
         lastDay = lastDay + 7;
     }
     
-    let nextMonth = createDatesArray(1, 7 - lastDay);
+    let nextMonth = createDatesArray(1, 7 - lastDay, month + 1, year + 1);
 
     return prevMonth.concat(currentMonth, nextMonth);
 }
+
 
 export function createYearArray() {
     const currentYear = new Date().getFullYear();

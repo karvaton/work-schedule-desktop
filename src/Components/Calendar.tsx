@@ -13,8 +13,8 @@ export default function Calendar() {
     const [month, setMonth] = useState<number>(date.getMonth());
 
     return (
-        <div className="calndar-area">
-            <div className="calendar-settings">
+        <div className="calendar-area">
+            <div className="calendar-management">
                 <CalendarSwicther changeYearHandler={setYear} changeMonthHandler={setMonth} />
                 <CalendarSettings changeFirstDayHandler={setFirstWeekDay} />
             </div>

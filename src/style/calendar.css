@@ -1,4 +1,96 @@
+.dialog-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: #0000004f;
+}
+
+.calendar-area {
+    height: calc(100vh - 20px);
+    margin: 0 10px;
+    padding: 10px;
+    border: solid 1px #4f4f4f;
+    border-top: none;
+    border-bottom: none;
+}
+
+.calendar-management {
+    position: relative;
+    display: flex;
+    margin: 10px 0;
+    margin-left: auto;
+    margin-right: 15px;
+    width: 300px;
+    justify-content: space-between;
+}
+
+.calendar-switcher {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.settings-container {
+    position: absolute;
+    width: 240px;
+    right: 0;
+    top: 30px;
+    padding: 20px;
+    background: #fff;
+    border: solid 1px #ddd;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 0 5px -3px #000;
+}
+
+.calendar {
+    height: 65%;
+    padding: 10px;
+    border: solid 2px #b3b3b3;
+    border-radius: 10px;
+}
+
 .week {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.week-days {
+    margin-bottom: 4px;
+    grid-template-rows: 30px;
+    align-items: center;
+}
+
+.week-day {
+    height: 100%;
+    border: solid 1px #ccc;
+    display: grid;
+    align-items: center;
+    border-bottom: solid 3px #ccc;
+}
+.week-day:first-child {
+    border-radius: 7px 0 0;
+}
+.week-day:last-child {
+    border-radius: 0 7px 0 0;
+}
+
+.dates {
+    grid-template-rows: repeat(6, 1fr);
+    height: calc(100% - 30px);
+}
+
+.date {
+    border: solid 1px #ccc;
+    color: #878787;
+}
+.date:hover {
+    border: solid 1px #1b1b1b;
+}
+
+.date.current-month {
+    color: #000;
 }

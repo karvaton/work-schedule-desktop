@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { createWeekDaysArray } from "./calendar.utility"
 
+
 const weekdays = createWeekDaysArray();
 
+
 type CalendarSettingsType = {
-    changeFirstDayHandler: React.Dispatch<React.SetStateAction<number>>
+    changeFirstDayHandler: (value: number) => void
 }
+
 export default function CalendarSettings({ changeFirstDayHandler }: CalendarSettingsType) {
     const [windowActive, setWindowActive] = useState<boolean>(false);
     const [activeDay, setActiveDay] = useState<number>(0);
