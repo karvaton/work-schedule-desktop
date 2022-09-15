@@ -1,0 +1,79 @@
+export function getMonthLength(
+    month = new Date().getMonth(),
+    year = new Date().getFullYear()
+) {
+    const date = new Date(year, month, 31).getDate();    
+    const lastDate = 31 - date;
+    return lastDate || 31;
+}
+
+
+export function createDatesArray(start: number, end: number) {
+    const datesArray = [];    
+    for (let i = start; i <= end; i++) {
+        datesArray.push(i);
+    }
+    return datesArray;
+}
+
+
+export function getStartDay(
+    month = new Date().getMonth(),
+    year = new Date().getFullYear()
+) {
+    return new Date(year, month, 1).getDay();
+}
+
+
+export function getDatesArray(
+    month = new Date().getMonth(),
+    year = new Date().getFullYear(),
+    shift: number = 0
+) {
+    const monthLength = getMonthLength(month, year);
+    const prevMonthLength = getMonthLength(month - 1, year);
+    const currentMonth = createDatesArray(1, monthLength);
+    let startDay = new Date(year, month, 1).getDay() - 1 - shift;
+    if (startDay < 0) {
+        startDay = startDay + 7;
+    }
+
+    const prevMonth = createDatesArray(prevMonthLength - startDay, prevMonthLength);
+    let lastDay = new Date(year, month, monthLength).getDay() + 1 - shift;
+    if (lastDay < 0) {
+        lastDay = lastDay + 7;
+    }
+    
+    let nextMonth = createDatesArray(1, 7 - lastDay);
+
+    return prevMonth.concat(currentMonth, nextMonth);
+}
+
+export function createYearArray() {
+    const currentYear = new Date().getFullYear();
+    const yearsArray = [];
+
+    for (let i = (currentYear - 10); i < (currentYear + 10); i++) {
+        yearsArray.push(i);
+    }
+    return yearsArray;
+}
+
+
+type MonthFormatType = "long" | "short" | "narrow" | undefined
+
+export function createWeekDaysArray(formatType: MonthFormatType = 'long') {
+    const date = new Date(2022, 4);
+    return Array(7).fill(0).map((item, i) => new Intl
+        .DateTimeFormat('en-US', { weekday: formatType })
+        .format(date.setDate(i + 1)));
+}
+
+type WeekDaysFormatType = "long" | "short" | "narrow" | "numeric" | "2-digit" | undefined
+
+export function createMonthArray(formatType: WeekDaysFormatType = 'long') {
+    const date = new Date();
+    return Array(12).fill(0).map((item, i) => new Intl
+        .DateTimeFormat('en-US', { month: formatType })
+        .format(date.setMonth(i)));
+}
