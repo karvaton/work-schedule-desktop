@@ -6,10 +6,14 @@ const modalRoot = document.getElementById('modal-root');
 
 type ModalType = {
     children: ReactElement | string
+    darkBackground?: boolean
 }
-export default function Modal({ children }: ModalType) {
+export default function Modal({ children, darkBackground }: ModalType) {
     const el = document.createElement('div');
     el.classList.add('dialog-wrapper');
+    if (darkBackground) {
+        el.classList.add('dialog-wrapper-darken');
+    }
 
     useEffect(() => {
         modalRoot?.appendChild(el);

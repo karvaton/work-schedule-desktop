@@ -1,5 +1,5 @@
 import { useAppSelector } from '../../hooks/redux';
-import '../style/calendar.css';
+import '../../style/calendar.css';
 import CalendarSettings from './CalendarSettings';
 import CalendarSwicther from './CalendarSwitch';
 import Dates from './Dates';

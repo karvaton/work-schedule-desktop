@@ -25,7 +25,10 @@ code {
   height: 100vh;
   width: 100vw;
   display: flex;
-  background: #0000004f;
   justify-content: center;
   align-items: center;
+}
+
+.dialog-wrapper-darken {
+  background: #0000004f;
 }
