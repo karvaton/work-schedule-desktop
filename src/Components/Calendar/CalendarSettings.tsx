@@ -1,22 +1,16 @@
 import { useState } from "react";
-import { createWeekDaysArray } from "./calendar.utility"
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { calendarSlice } from "../state/reducers/calendar.slice";
+import { createWeekDaysArray } from "../utilities/calendar.utility"
 
 
 const weekdays = createWeekDaysArray();
 
-
-type CalendarSettingsType = {
-    changeFirstDayHandler: (value: number) => void
-}
-
-export default function CalendarSettings({ changeFirstDayHandler }: CalendarSettingsType) {
+export default function CalendarSettings() {
     const [windowActive, setWindowActive] = useState<boolean>(false);
-    const [activeDay, setActiveDay] = useState<number>(0);
-
-    function changeFirstDay(value: number) {
-        setActiveDay(value);
-        changeFirstDayHandler(value);
-    }
+    const { firstWeekday } = useAppSelector(state => state.calendar);
+    const { setFirstWeekday } = calendarSlice.actions;
+    const dispatch = useAppDispatch();
 
     return (
         <div className="calendar-settings">
@@ -29,7 +23,7 @@ export default function CalendarSettings({ changeFirstDayHandler }: CalendarSett
             {windowActive ? (
                 <div className="settings-container">
                     <label htmlFor="choose-first-day">First day of week</label>
-                    <select value={activeDay} onChange={e => changeFirstDay(Number(e.target.value))}>
+                    <select value={firstWeekday} onChange={e => dispatch(setFirstWeekday(Number(e.target.value)))}>
                         {weekdays.map((weekday, index) =>
                             <option key={index} value={index}>{weekday}</option>
                         )}
