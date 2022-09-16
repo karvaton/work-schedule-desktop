@@ -1,4 +1,5 @@
 .App {
+  display: flex;
   text-align: center;
   margin: 0 5%;
 }
@@ -16,4 +17,12 @@
 
 .App-link {
   color: #61dafb;
+}
+
+aside {
+  width: 200px;
+}
+
+main {
+  flex: 1;
 }
