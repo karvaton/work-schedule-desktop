@@ -1,0 +1,21 @@
+#menu {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 0;
+}
+
+.schedules {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px;
+    border-radius: 7px;
+}
+
+.add-schedule {
+    order: -1;
+    border: solid 1px #b9cfd5;
+    background: #ecf7fa;
+    color: #37535a;
+}
