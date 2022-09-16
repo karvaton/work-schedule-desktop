@@ -1,12 +1,3 @@
-.dialog-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background: #0000004f;
-}
-
 .calendar-area {
     height: calc(100vh - 20px);
     margin: 0 10px;
