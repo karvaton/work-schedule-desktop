@@ -1,4 +1,4 @@
-import { iDate } from "../utilities/calendar.utility";
+import { iDate } from "../../utilities/calendar.utility";
 
 
 interface DateType extends iDate {

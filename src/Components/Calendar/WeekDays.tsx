@@ -1,4 +1,4 @@
-import { createWeekDaysArray } from "../utilities/calendar.utility";
+import { createWeekDaysArray } from "../../utilities/calendar.utility";
 
 const daysOfWeek = createWeekDaysArray('short');
 

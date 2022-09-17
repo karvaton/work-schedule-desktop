@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getDatesArray, iDate } from "../utilities/calendar.utility"
+import { getDatesArray, iDate } from "../../utilities/calendar.utility"
 import DateComponent from "./Date";
 
 type DatesType = {

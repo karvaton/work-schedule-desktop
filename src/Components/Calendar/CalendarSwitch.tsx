@@ -1,6 +1,6 @@
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { calendarSlice } from "../state/reducers/calendar.slice";
-import { createMonthArray, createYearArray } from "../utilities/calendar.utility";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { calendarSlice } from "../../state/reducers/calendar.slice";
+import { createMonthArray, createYearArray } from "../../utilities/calendar.utility";
 
 
 const monthes = createMonthArray();

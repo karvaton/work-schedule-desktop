@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { calendarSlice } from "../state/reducers/calendar.slice";
-import { createWeekDaysArray } from "../utilities/calendar.utility"
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { calendarSlice } from "../../state/reducers/calendar.slice";
+import { createWeekDaysArray } from "../../utilities/calendar.utility"
 
 
 const weekdays = createWeekDaysArray();
