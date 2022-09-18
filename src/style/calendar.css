@@ -2,7 +2,7 @@
     height: calc(100vh - 20px);
     margin: 0 10px;
     padding: 10px;
-    border: solid 1px #4f4f4f;
+    /* border: solid 1px #4f4f4f; */
     border-top: none;
     border-bottom: none;
 }
@@ -91,6 +91,38 @@
     background: #cee8ff;
 }
 
-.date.active-date {
-    border: solid 2px #4588c4;
+
+.workday {
+    background-color: #ecd6df;
+}
+.date.current-month.current-date.workday {
+    background-color: #ded1ec;
+}
+.date.current-month.workday {
+    background-color: #d9adbf;
+}
+.current-date.workday {
+    border: solid 1px #d9adbf;
+    outline: solid 1px #d9adbf;
+}
+
+
+.weekend {
+    background-color: #daeed9;
+}
+.date.current-month.current-date.weekend {
+    background-color: #c4e3e6;
+}
+.date.current-month.weekend {
+    background-color: #aed9ad;
+}
+.current-date.weekend {
+    border: solid 1px #aed9ad;
+    outline: solid 1px #aed9ad;
+}
+
+
+div.date.active-date {
+    border: solid 1px #4588c4;
+    outline: solid 1px #4588c4;
 }
