@@ -1,3 +1,5 @@
+import { iDate } from "../models/iDate";
+
 export function getMonthLength(
     month = new Date().getMonth(),
     year = new Date().getFullYear()
@@ -7,11 +9,7 @@ export function getMonthLength(
     return lastDate || 31;
 }
 
-export interface iDate {
-    date: number,
-    month: number,
-    year: number
-}
+
 export function createDatesArray(
     start: number, 
     end: number, 
@@ -52,13 +50,18 @@ export function getDatesArray(
         startDay = startDay + 7;
     }
 
-    const prevMonth = createDatesArray(prevMonthLength - startDay, prevMonthLength, month - 1, year - 1);
+    const prevMonth = createDatesArray(prevMonthLength - startDay, prevMonthLength,
+        month <= 12 ? month - 1 : month + 11,
+        month <= 12 ? year : year - 1);
+        
     let lastDay = new Date(year, month, monthLength).getDay() + 1 - shift;
     if (lastDay < 0) {
         lastDay = lastDay + 7;
     }
     
-    let nextMonth = createDatesArray(1, 7 - lastDay, month + 1, year + 1);
+    let nextMonth = createDatesArray(1, 7 - lastDay,
+        month <= 12 ? month + 1 : month - 11,
+        month <= 12 ? year : year + 1 );
 
     return prevMonth.concat(currentMonth, nextMonth);
 }
