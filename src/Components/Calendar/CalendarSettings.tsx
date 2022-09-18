@@ -8,7 +8,7 @@ const weekdays = createWeekDaysArray();
 
 export default function CalendarSettings() {
     const [windowActive, setWindowActive] = useState<boolean>(false);
-    const { firstWeekday } = useAppSelector(state => state.calendar);
+    const { firstWeekday } = useAppSelector(state => state.calendar.settings);
     const { setFirstWeekday } = calendarSlice.actions;
     const dispatch = useAppDispatch();
 

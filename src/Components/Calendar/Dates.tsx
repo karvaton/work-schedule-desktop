@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { getDatesArray, iDate } from "../../utilities/calendar.utility"
+import { iDate } from "../../models/iDate";
+import { getDatesArray } from "../../utilities/calendar.utility"
+import { iScheduleDate, transformScheduleDates } from "../../utilities/schedule.utility";
 import DateComponent from "./Date";
 
 type DatesType = {
@@ -11,6 +13,16 @@ type DatesType = {
 export default function Dates({month, year, firstWeekDay}: DatesType) {
     const currentDate = new Date();
     const datesArray = getDatesArray(month, year, firstWeekDay);
+    const schedulesArr = transformScheduleDates(datesArray, {
+        firstDate: {
+            date: 16,
+            month: 8,
+            year: 2022
+        },
+        countOfWorkdays: 4,
+        countOfWeekends: 2
+    });
+    
     const [activeDate, setActiveDate] = useState<iDate>({
         date: currentDate.getDate(),
         month: currentDate.getMonth(),
@@ -19,7 +31,7 @@ export default function Dates({month, year, firstWeekDay}: DatesType) {
 
     return (
         <div className="dates week">
-            {datesArray.map((item) => 
+            {schedulesArr.map((item: iScheduleDate) => 
                 <DateComponent
                     key={`${new Date(item.year, item.month, item.date).getTime()}`}
                     date={item.date}
@@ -32,6 +44,7 @@ export default function Dates({month, year, firstWeekDay}: DatesType) {
                         item.year === activeDate.year
                     }
                     setActive={setActiveDate}
+                    workday={item.workday}
                 />
             )}
         </div>

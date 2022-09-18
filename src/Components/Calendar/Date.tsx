@@ -1,13 +1,13 @@
-import { iDate } from "../../utilities/calendar.utility";
-
+import { iDate } from "../../models/iDate";
 
 interface DateType extends iDate {
     isCurrentMonth: boolean,
     isActive: boolean,
     setActive: (value: iDate) => void
+    workday: boolean | null
 }
 
-export default function DateComponent({date, month, year, isCurrentMonth, isActive, setActive}: DateType) {
+export default function DateComponent({date, month, year, isCurrentMonth, isActive, setActive, workday}: DateType) {
     const currentDate = new Date();
     const isCurrentDate = currentDate.getFullYear() === year &&
         currentDate.getMonth() === month &&
@@ -17,6 +17,8 @@ export default function DateComponent({date, month, year, isCurrentMonth, isActi
     if (isCurrentMonth) dateClass += ' current-month';
     if (isCurrentDate) dateClass += ' current-date';
     if (isActive) dateClass += ' active-date';
+    if (workday) dateClass += ' workday';
+    else if (workday === false) dateClass += ' weekend';
 
     return (
         <div className={dateClass} onClick={() => setActive({ date, month, year })}>

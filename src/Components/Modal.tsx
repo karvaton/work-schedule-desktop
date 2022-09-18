@@ -20,7 +20,7 @@ export default function Modal({ children, darkBackground }: ModalType) {
         return () => {
             modalRoot?.removeChild(el);
         }        
-    })
+    });
 
     return ReactDOM.createPortal(children, el);
 }

@@ -7,7 +7,7 @@ import WeekDays from './WeekDays';
 
 
 export default function Calendar() {
-    const { month, year, firstWeekday } = useAppSelector(state => state.calendar)
+    const { month, year, settings: {firstWeekday} } = useAppSelector(state => state.calendar)
 
     return (
         <div className="calendar-area">

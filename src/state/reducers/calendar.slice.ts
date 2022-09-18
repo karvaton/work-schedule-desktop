@@ -4,9 +4,11 @@ import { iCalendar } from "../../models/iCalendar";
 const today = new Date();
 
 const initialState: iCalendar = {
-    firstWeekday: 1,
     month: today.getMonth(),
-    year: today.getFullYear()
+    year: today.getFullYear(),
+    settings: {
+        firstWeekday: 1,
+    }
 }
 
 export const calendarSlice = createSlice({
@@ -22,7 +24,7 @@ export const calendarSlice = createSlice({
         },
 
         setFirstWeekday(state, { payload }: PayloadAction<number>) {
-            state.firstWeekday = payload
+            state.settings.firstWeekday = payload
         }
     }
 });
