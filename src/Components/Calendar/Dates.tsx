@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAppSelector } from "../../hooks/redux";
 import { iDate } from "../../models/iDate";
 import { getDatesArray } from "../../utilities/calendar.utility"
 import { iScheduleDate, transformScheduleDates } from "../../utilities/schedule.utility";
@@ -13,15 +14,9 @@ type DatesType = {
 export default function Dates({month, year, firstWeekDay}: DatesType) {
     const currentDate = new Date();
     const datesArray = getDatesArray(month, year, firstWeekDay);
-    const schedulesArr = transformScheduleDates(datesArray, {
-        firstDate: {
-            date: 16,
-            month: 8,
-            year: 2022
-        },
-        countOfWorkdays: 4,
-        countOfWeekends: 2
-    });
+    const {active, schedules} = useAppSelector(state => state.schedules);
+    const schedule = schedules.find(({ id }) => id === active);
+    const schedulesArr = transformScheduleDates(datesArray, schedule);
     
     const [activeDate, setActiveDate] = useState<iDate>({
         date: currentDate.getDate(),

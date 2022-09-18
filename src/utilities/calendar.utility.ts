@@ -95,3 +95,21 @@ export function createMonthArray(formatType: WeekDaysFormatType = 'long') {
         .DateTimeFormat('en-US', { month: formatType })
         .format(date.setMonth(i)));
 }
+
+
+export function formatDate(inputDate: Date | iDate): string {
+    let date, month, year;
+    if ('year' in inputDate) {
+        year = inputDate.year;
+        month = inputDate.month + 1;
+        date = inputDate.date;
+    } else if (inputDate instanceof Date){
+        year = inputDate.getFullYear();
+        month = inputDate.getMonth() + 1;
+        date =  inputDate.getDate();
+    } else {
+        return '';
+    }
+    
+    return `${year}-${ month < 10 ? '0' + month : month }-${ date < 10 ? '0' + date : date }`;
+}

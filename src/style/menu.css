@@ -9,8 +9,29 @@
 .schedules {
     width: 100%;
     box-sizing: border-box;
-    padding: 6px;
-    border-radius: 7px;
+    padding: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: solid 1px #b7b6b6;
+    height: 36px;
+    font-weight: 600;
+}
+.schedules:last-child {
+    border: none;
+}
+.schedules:hover {
+    background-color: #fafafa;
+}
+.schedules > .schedule-manage-btns {
+    display: none;
+}
+.schedules:hover > .schedule-manage-btns {
+    display: flex;
+}
+
+.schedule-active {
+    color: #379cd9;
 }
 
 .add-schedule {
@@ -18,8 +39,13 @@
     border: solid 1px #b9cfd5;
     background: #ecf7fa;
     color: #37535a;
+    justify-content: center;
+    border-radius: 7px;
+    margin-top: 5px;
 }
-
+.add-schedule:hover {
+    background-color: #e0f0f5;
+}
 
 .add-schedule-dialog {
     position: relative;
@@ -28,6 +54,7 @@
     background-color: white;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 0 8px 0px #8c8c8c;
 }
 
 .add-schedule-dialog > input {

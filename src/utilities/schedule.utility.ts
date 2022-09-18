@@ -11,30 +11,34 @@ type InputScheduleDate = {
     countOfWeekends: number
 }
 
-export function transformScheduleDates(dates: iDate[], inputScheduleData: InputScheduleDate) {
-    const { firstDate, countOfWeekends, countOfWorkdays } = inputScheduleData;
-    let leftWorkdays = countOfWorkdays;
-    let leftWeekends = countOfWeekends - 1;
-    const firstDateTimestamp = getTimestamp(firstDate);
-    
-    return dates.map((date): iScheduleDate => {
-        const dateTimestamp = getTimestamp(date);
-        
-        if (dateTimestamp >= firstDateTimestamp) {            
-            if (leftWorkdays) {
-                leftWorkdays -= 1;
-                return { ...date, workday: true }
-            } else if (leftWeekends) {
-                leftWeekends -= 1;
-                return { ...date, workday: false }
-            } else {
-                leftWeekends = countOfWeekends - 1;
-                leftWorkdays = countOfWorkdays;
-                return { ...date, workday: false }
+export function transformScheduleDates(dates: iDate[], inputScheduleData?: InputScheduleDate) {
+    if (inputScheduleData) {
+        const { firstDate, countOfWeekends, countOfWorkdays } = inputScheduleData;
+        let leftWorkdays = countOfWorkdays;
+        let leftWeekends = countOfWeekends - 1;
+        const firstDateTimestamp = getTimestamp(firstDate);
+
+        return dates.map((date): iScheduleDate => {
+            const dateTimestamp = getTimestamp(date);
+
+            if (dateTimestamp >= firstDateTimestamp) {
+                if (leftWorkdays) {
+                    leftWorkdays -= 1;
+                    return { ...date, workday: true }
+                } else if (leftWeekends) {
+                    leftWeekends -= 1;
+                    return { ...date, workday: false }
+                } else {
+                    leftWeekends = countOfWeekends - 1;
+                    leftWorkdays = countOfWorkdays;
+                    return { ...date, workday: false }
+                }
             }
-        }
-        return { ...date, workday: null }
-    });
+            return { ...date, workday: null }
+        });
+    } else {
+        return dates.map(date => ({ ...date, workday: null }));
+    }
 }
 
 
