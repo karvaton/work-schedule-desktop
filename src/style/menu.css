@@ -10,6 +10,7 @@
     width: 100%;
     box-sizing: border-box;
     padding: 7px;
+    padding-right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,12 +31,26 @@
     display: flex;
 }
 
+.schedule-manage-btns button {
+    width: 23px;
+    padding: 0;
+    background: none;
+    border: none;
+}
+.schedule-manage-btns .schedule-btn-edit:hover path {
+    fill: #199b38;
+}
+.schedule-manage-btns .schedule-btn-remove:hover path {
+    fill: #c84444;
+}
+
 .schedule-active {
     color: #379cd9;
 }
 
 .add-schedule {
     order: -1;
+    padding: 7px;
     border: solid 1px #b9cfd5;
     background: #ecf7fa;
     color: #37535a;

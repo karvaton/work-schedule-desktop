@@ -15,7 +15,7 @@ export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSche
 
         if (startDateTimestamp < getTimestamp(dates[0])) {
             const dayDiff = getDatesDiff(firstDate, dates[0]);
-            const dayNumber = dayDiff % (leftWorkdays + leftWeekends + 1);
+            const dayNumber = dayDiff % (countOfWorkdays + countOfWeekends);
             leftWorkdays = leftWorkdays - dayNumber;
             
             if (leftWorkdays < 1) {
@@ -29,10 +29,10 @@ export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSche
 
             if (dateTimestamp >= startDateTimestamp) {
                 if (leftWorkdays) {
-                    leftWorkdays -= 1;
+                    leftWorkdays--;
                     return { ...date, workday: true }
                 } else if (leftWeekends) {
-                    leftWeekends -= 1;
+                    leftWeekends--;
                     return { ...date, workday: false }
                 } else {
                     leftWeekends = countOfWeekends - 1;

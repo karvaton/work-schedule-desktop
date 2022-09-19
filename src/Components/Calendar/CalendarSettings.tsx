@@ -12,18 +12,39 @@ export default function CalendarSettings() {
     const { setFirstWeekday } = calendarSlice.actions;
     const dispatch = useAppDispatch();
 
+    let containerTimer: NodeJS.Timeout;
+    function hideSettings(delay: number) {
+        containerTimer = setTimeout(() => {
+            setWindowActive(false);
+        }, delay);
+    }
+
+    function unsetTimer() {
+        clearTimeout(containerTimer);
+    }
+
     return (
         <div className="calendar-settings">
             <button
                 className="calendat-settings-btn"
                 onClick={() => setWindowActive(!windowActive)}
+                onMouseLeave={() => windowActive && hideSettings(500)}
             >
                 Settings
             </button>
             {windowActive ? (
-                <div className="settings-container">
+                <div
+                    className="settings-container"
+                    onMouseEnter={unsetTimer}
+                    onMouseLeave={() => hideSettings(500)}
+                >
                     <label htmlFor="choose-first-day">First day of week</label>
-                    <select value={firstWeekday} onChange={e => dispatch(setFirstWeekday(Number(e.target.value)))}>
+                    <select
+                        value={firstWeekday}
+                        onChange={e => 
+                            dispatch(setFirstWeekday(Number(e.target.value)))
+                        }
+                    >
                         {weekdays.map((weekday, index) =>
                             <option key={index} value={index}>{weekday}</option>
                         )}
