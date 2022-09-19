@@ -67,11 +67,10 @@ export function getDatesArray(
 }
 
 
-export function createYearArray() {
-    const currentYear = new Date().getFullYear();
+export function createYearArray(currentYear = new Date().getFullYear()) {
     const yearsArray = [];
 
-    for (let i = (currentYear - 10); i < (currentYear + 10); i++) {
+    for (let i = (currentYear - 9); i < (currentYear + 10); i++) {
         yearsArray.push(i);
     }
     return yearsArray;

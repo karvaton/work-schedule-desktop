@@ -16,7 +16,7 @@
     margin: 10px 0;
     margin-left: auto;
     margin-right: 15px;
-    width: 300px;
+    width: 420px;
     justify-content: space-between;
 }
 
@@ -24,6 +24,26 @@
     display: flex;
     justify-content: space-evenly;
     width: 100%;
+}
+
+.calendar-switcher button {
+    padding: 0;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+.calendar-switcher button.get-today {
+    padding: 0 6px;
+}
+
+.calendar-settings {
+    display: flex;
+}
+
+.calendar-settings button {
+    height: 100%;
 }
 
 .settings-container {
