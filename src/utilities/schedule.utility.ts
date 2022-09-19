@@ -1,27 +1,33 @@
 import { iDate } from "../models/iDate";
+import { iSchedule } from "../models/iSchedules";
 
 
 export interface iScheduleDate extends iDate {
     workday: boolean | null
 }
 
-type InputScheduleDate = {
-    firstDate: iDate,
-    countOfWorkdays: number,
-    countOfWeekends: number
-}
-
-export function transformScheduleDates(dates: iDate[], inputScheduleData?: InputScheduleDate) {
+export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSchedule) {
     if (inputScheduleData) {
         const { firstDate, countOfWeekends, countOfWorkdays } = inputScheduleData;
         let leftWorkdays = countOfWorkdays;
         let leftWeekends = countOfWeekends - 1;
-        const firstDateTimestamp = getTimestamp(firstDate);
+        const startDateTimestamp = getTimestamp(firstDate);
+
+        if (startDateTimestamp < getTimestamp(dates[0])) {
+            const dayDiff = getDatesDiff(firstDate, dates[0]);
+            const dayNumber = dayDiff % (leftWorkdays + leftWeekends + 1);
+            leftWorkdays = leftWorkdays - dayNumber;
+            
+            if (leftWorkdays < 1) {
+                leftWeekends = leftWeekends - dayNumber + countOfWorkdays;
+                leftWorkdays = 0;
+            }
+        }
 
         return dates.map((date): iScheduleDate => {
             const dateTimestamp = getTimestamp(date);
 
-            if (dateTimestamp >= firstDateTimestamp) {
+            if (dateTimestamp >= startDateTimestamp) {
                 if (leftWorkdays) {
                     leftWorkdays -= 1;
                     return { ...date, workday: true }
@@ -45,3 +51,10 @@ export function transformScheduleDates(dates: iDate[], inputScheduleData?: Input
 function getTimestamp({ date, month, year }: iDate) {
     return new Date(year, month, date).getTime();
 }
+
+
+function getDatesDiff(start: iDate, current: iDate) {
+    const timeDiff = getTimestamp(current) - getTimestamp(start);
+    return Math.round(timeDiff/(1000 * 3600 * 24));
+}
+

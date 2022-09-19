@@ -1,16 +1,19 @@
 import '../../style/menu.css';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { dialogSlice } from '../../state/reducers/dialog.slice';
 import AddSchudleDialog from './AddSchudleDialog';
 import Modal from '../Modal';
 import { SchedulesSlice } from '../../state/reducers/schedules.slice';
+import ConfirmDialog from './Confirm';
+import { iSchedule } from '../../models/iSchedules';
+import { ScheduleLI } from './SchedileListItem';
 
 
 export default function Menu() {
-    const opened = useAppSelector(state => state.dialog.opened);
-    const dialog = dialogSlice.actions;
+    const [openedConfirmDialog, toggleConfirmDialog] = useState<Pick<iSchedule, "id" | "title"> | false>(false);
+    const [openedAddScheduleDialog, toggleAddScheduleDialog] = useState<boolean>(false);
     const scheduleActions = SchedulesSlice.actions;
-    const { schedules, active } = useAppSelector(state => state.schedules);
+    const { schedules } = useAppSelector(state => state.schedules);
     const dispatch = useAppDispatch();
 
     return (
@@ -18,49 +21,35 @@ export default function Menu() {
             <ul id="menu" className="menu">
                 <li
                     className="add-schedule schedules"
-                    onClick={() => dispatch(dialog.open())}
+                    onClick={() => toggleAddScheduleDialog(true)}
                 >
                     Add schedule +
                 </li>
                 {schedules.map(({ id, title }) => 
-                    <li
+                    <ScheduleLI
                         key={id}
-                        className={"schedules" + (id === active ? ' schedule-active' : "")}
-                        onClick={
-                            () => dispatch(scheduleActions.activate({ id }))
-                        }
-                    >
-                        <span>{title}</span>
-                        <div className="schedule-manage-btns">
-                            <input
-                                type="button"
-                                value="Edit"
-                                onClick={
-                                    (e) => {
-                                        dispatch(scheduleActions.startEditing({ id }));
-                                        dispatch(dialog.open());
-                                    }
-                                }
-                            />
-                            <input
-                                type="button"
-                                value="x"
-                                onClick={
-                                    (e) => {
-                                        e.stopPropagation();
-                                        dispatch(scheduleActions.remove({ id }));
-                                    }
-                                }
-                            />
-                        </div>
-                    </li>
+                        id={id}
+                        title={title}
+                        openEdit={() => toggleAddScheduleDialog(true)}
+                        openRemove={toggleConfirmDialog} 
+                    />
                 )}
+                {openedConfirmDialog ? 
+                    <Modal darkBackground opened={!!openedConfirmDialog.id}>
+                        <ConfirmDialog
+                            question={`Delete schedule "${openedConfirmDialog.title}"?`}
+                            onAccept={() => {
+                                dispatch(scheduleActions.remove({ id: openedConfirmDialog.id }));
+                                toggleConfirmDialog(false);
+                            }}
+                            onDecline={() => toggleConfirmDialog(false)}
+                        />
+                    </Modal> 
+                : null}
             </ul>
-            {opened ? (
-                <Modal darkBackground>
-                    <AddSchudleDialog />
-                </Modal>
-            ) : null}
+            <Modal darkBackground opened={openedAddScheduleDialog}>
+                <AddSchudleDialog closeFn={() => toggleAddScheduleDialog(false)} />
+            </Modal>
         </>
     )
 }

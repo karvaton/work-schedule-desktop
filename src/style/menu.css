@@ -47,14 +47,18 @@
     background-color: #e0f0f5;
 }
 
-.add-schedule-dialog {
-    position: relative;
-    width: 300px;
-    padding: 20px;
+
+.dialog {
     background-color: white;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 8px 0px #8c8c8c;
+}
+
+.add-schedule-dialog {
+    position: relative;
+    width: 300px;
+    padding: 20px;
 }
 
 .add-schedule-dialog > input {
@@ -78,4 +82,21 @@
     display: flex;
     justify-content: space-between;
     margin-left: auto;
+}
+
+
+.confirm-dialog {
+    width: 250px;
+    padding: 20px 40px;
+}
+
+.confirm-dialog > p {
+    margin-top: 0;
+}
+
+.manage-confirm-btns {
+    width: 100px;
+    margin-left: auto;
+    display: flex;
+    justify-content: space-between;
 }

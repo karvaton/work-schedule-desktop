@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { dialogSlice } from "../../state/reducers/dialog.slice";
 import { SchedulesSlice } from "../../state/reducers/schedules.slice";
 import { formatDate } from "../../utilities/calendar.utility";
 
 
-export default function AddSchudleDialog() {
+type AddSchudleDialogType = {
+    closeFn: () => void
+}
+export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
     const { editing, schedules } = useAppSelector(state => state.schedules);
     const inputSchedule = schedules.find(({ id }) => id === editing);
     const [title, setTitle] = useState<string>(inputSchedule?.title || '');
@@ -16,7 +18,6 @@ export default function AddSchudleDialog() {
     const [countOfWeekends, setCountOfWeekends] = useState<string>(inputSchedule?.countOfWeekends ? `${inputSchedule.countOfWeekends}` : '');
 
     const dispatch = useAppDispatch();
-    const dialog = dialogSlice.actions;
     const schedulesActions = SchedulesSlice.actions;
 
     function setScheduleParams() {
@@ -35,7 +36,7 @@ export default function AddSchudleDialog() {
             } else {
                 dispatch(schedulesActions.add(schedule));
             }
-            dispatch(dialog.close());
+            closeFn();
         }
     }
 
@@ -43,7 +44,7 @@ export default function AddSchudleDialog() {
         if (editing) {
             dispatch(schedulesActions.finishEditing());
         }
-        dispatch(dialog.close());
+        closeFn();
     }
 
     return (
