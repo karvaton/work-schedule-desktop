@@ -1,19 +1,21 @@
-import { DateType } from "./Date";
+import { useAppSelector } from "../../hooks/redux";
 
-interface AddExceptionMenuType extends Pick<DateType, 'workday'> {
+interface AddExceptionMenuType {
     close: () => void
 }
-export default function AddExceptionMenu({ workday, close }: AddExceptionMenuType) {
+
+export default function AddExceptionMenu({ close }: AddExceptionMenuType) {
+    const { active, schedules } = useAppSelector(state => state.schedules);
+    const schedule = schedules.find(({ id }) => id === active);
+    const types = schedule?.types || [];
+
     return (
         <div className="context-menu">
-            <div onClick={close}>
-                {workday ? (
-                    'Set this date a weekend'
-                ) : null}
-                {workday === false ? (
-                    'Set this date a workday'
-                ) : null}
-            </div>
+            {types.map(({ title, value }) => 
+                <div key={value} className="option" onClick={close}>
+                    {`Set this date a weekend ${title}`}
+                </div>
+            )}
         </div>
     )
 }

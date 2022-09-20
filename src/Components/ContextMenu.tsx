@@ -11,14 +11,23 @@ export type Offset = {
 
 type ContextMenuType = {
     children: ReactElement | string
-    offset: Offset
+    offset: Offset,
+    close: () => void
 }
-export default function ContextMenu({ children, offset }: ContextMenuType) {
+export default function ContextMenu({ children, offset, close }: ContextMenuType) {
     const el = document.createElement('div');
-    el.classList.add('context-menu-container');
-    el.style.top = offset.top + 'px';
-    el.style.left = offset.left + 'px';
+    const childEl = document.createElement('div');
+    el.classList.add('context-menu-wrapper');
+    el.appendChild(childEl);
+    el.addEventListener('mousedown', close);
+    childEl.classList.add('context-menu-container');
 
+    childEl.style.top = offset.top + 'px';
+    childEl.style.left = offset.left + 'px';
+    if (window.innerWidth - 180 < offset.left) {
+        childEl.style.left = window.innerWidth - 180 + 'px';
+    }
+    
     useEffect(() => {
         modalRoot?.appendChild(el);
         return () => {
@@ -26,5 +35,5 @@ export default function ContextMenu({ children, offset }: ContextMenuType) {
         }
     });
 
-    return ReactDOM.createPortal(children, el);
+    return ReactDOM.createPortal(children, childEl);
 }

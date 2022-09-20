@@ -20,11 +20,13 @@ export const SchedulesSlice = createSlice({
             state.active = payload.id;
         },
 
-        add(state, { payload }: PayloadAction<Omit<iSchedule, 'id'>>) {
+        add(state, { payload }: PayloadAction<Omit<iSchedule, 'id' | 'exceptions'>>) {
             const id = Date.now();
+            const exceptions = {};
             const schedule = { 
                 id,
                 ...payload,
+                exceptions
             };
             state.schedules.push(schedule);
             state.active = id;
@@ -46,22 +48,23 @@ export const SchedulesSlice = createSlice({
             state.editing = 0;
         },
 
-        edit(state, { payload }: PayloadAction<Omit<iSchedule, 'id'>>) {
+        edit(state, { payload }: PayloadAction<Omit<iSchedule, 'id' | 'exceptions'>>) {
             const id = state.editing;
             state.editing = 0;
             const schedule = state.schedules.find(schedule => schedule.id === id);
+            const exceptions = schedule?.exceptions || {};
             const scheduleIndex = state.schedules.findIndex(element => element === schedule);
-            state.schedules.splice(scheduleIndex, 1, {id, ...payload});
+            if (scheduleIndex >= 0) {
+                state.schedules.splice(scheduleIndex, 1, { id, ...payload, exceptions });
+            }
             saveSchedulesState(JSON.stringify(state.schedules));
         },
 
-        addException(state, { payload }: PayloadAction<number>) {
+        addException(state, { payload }: PayloadAction<[number, number]>) {
             const active = state.active;
             const index = state.schedules.findIndex(({ id }) => id === active);
-            if (!state.schedules[index].exceptions) {
-                state.schedules[index].exceptions = [];
-            }
-            state.schedules[index].exceptions?.push(payload);
+            const [timestamp, value] = payload;
+            state.schedules[index].exceptions[timestamp] = value;
         },
     }
 });

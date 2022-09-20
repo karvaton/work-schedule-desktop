@@ -19,6 +19,7 @@ export default function DateComponent({date, month, year, isCurrentMonth, isActi
 
     function toggleContextMenu(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         event.preventDefault();
+        setActive({ date, month, year });
         const top = event.clientY;
         const left = event.clientX;
         toggleContext({ top, left });
@@ -37,11 +38,10 @@ export default function DateComponent({date, month, year, isCurrentMonth, isActi
             onClick={() => setActive({ date, month, year })}
             onContextMenu={e => toggleContextMenu(e)}
         >
-            {date}
+            {date < 10 ? `0${date}` : date}
             {showContext ? (
-                <ContextMenu offset={showContext} >
+                <ContextMenu offset={showContext} close={() => toggleContext(false)} >
                     <AddExceptionMenu
-                        workday={workday}
                         close={() => toggleContext(false)} 
                     />
                 </ContextMenu>

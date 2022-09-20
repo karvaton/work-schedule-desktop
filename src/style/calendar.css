@@ -101,6 +101,9 @@
 .date {
     border: solid 1px #ccc;
     color: #878787;
+    text-align: right;
+    line-height: 11px;
+    padding: 10px;
 }
 .date:hover {
     border: solid 1px #1b1b1b;

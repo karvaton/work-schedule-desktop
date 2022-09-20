@@ -28,7 +28,14 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
                 title,
                 firstDate: { year, month, date },
                 countOfWorkdays: Number(countOfWorkdays),
-                countOfWeekends: Number(countOfWeekends)
+                countOfWeekends: Number(countOfWeekends),
+                types: [{
+                    title: 'workdays',
+                    value: 1
+                }, {
+                    title: 'weekends',
+                    value: 2
+                }],
             };
 
             if (editing) {
