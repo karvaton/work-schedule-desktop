@@ -106,6 +106,10 @@
     border: solid 1px #1b1b1b;
 }
 
+.week-day, .date {
+    cursor: default;
+}
+
 .date.current-month {
     color: #000;
     font-weight: 600;

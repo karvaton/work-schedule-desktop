@@ -17,6 +17,7 @@
     border-top: solid 1px #b7b6b6;
     height: 36px;
     font-weight: 600;
+    cursor: pointer;
 }
 .schedules:last-child {
     border: none;

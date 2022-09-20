@@ -6,7 +6,7 @@ export interface iSchedule {
     firstDate: iDate
     countOfWorkdays: number
     countOfWeekends: number
-    exeptions?: iDate[]
+    exceptions?: number[]
 }
 
 export interface iSchedules {

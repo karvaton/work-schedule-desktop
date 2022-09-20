@@ -27,3 +27,32 @@ aside {
 main {
   flex: 1;
 }
+
+.dialog-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog-wrapper-darken {
+  background: #0000004f;
+}
+
+.context-menu-container {
+  position: fixed;
+  background: #fff;
+  box-shadow: 3px 3px 6px #676767;
+}
+
+.context-menu-container .context-menu {
+  padding: 10px 0;
+}
+
+.context-menu-container .context-menu > div {
+  padding: 0 20px;
+}

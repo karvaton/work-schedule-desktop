@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { iSchedule, iSchedules } from "../../models/iSchedules";
 
+
 const SCHEDULES = 'schedules';
 const savedSchedules = localStorage.getItem(SCHEDULES) || '[]';
 
@@ -10,9 +11,6 @@ const initialState: iSchedules = {
     editing: 0,
 }
 
-function saveSchedulesState(state: string) {
-    localStorage.setItem(SCHEDULES, state);
-}
 
 export const SchedulesSlice = createSlice({
     name: 'schedules',
@@ -56,8 +54,22 @@ export const SchedulesSlice = createSlice({
             state.schedules.splice(scheduleIndex, 1, {id, ...payload});
             saveSchedulesState(JSON.stringify(state.schedules));
         },
+
+        addException(state, { payload }: PayloadAction<number>) {
+            const active = state.active;
+            const index = state.schedules.findIndex(({ id }) => id === active);
+            if (!state.schedules[index].exceptions) {
+                state.schedules[index].exceptions = [];
+            }
+            state.schedules[index].exceptions?.push(payload);
+        },
     }
 });
+
+
+function saveSchedulesState(state: string) {
+    localStorage.setItem(SCHEDULES, state);
+}
 
 
 export default SchedulesSlice.reducer;
