@@ -81,6 +81,51 @@
     margin-bottom: 10px;
 }
 
+
+/* .add-schedule-dialog .schedule-type {
+    display: flex;
+ } */
+
+.schedule-fields {
+    display: grid;
+    grid-template-columns: 1fr 30px 30px;
+    gap: 2px;
+    margin-bottom: 3px;
+}
+
+.schedule-field-header {
+    font-size: 13px;
+    text-align: center;
+}
+
+.schedule-fields input {
+    /* padding: 5px; */
+}
+
+.schedule-fields button {
+    border: none;
+    display: flex;
+    align-items: center;
+    background-color: #fff0;
+}
+.schedule-fields button span {
+    display: block;
+    width: 15px;
+    height: 4px;
+    background-color: #c84444;
+}
+.schedule-fields button:disabled span {
+    background-color: #c8444480;
+}
+.schedule-fields button:disabled:hover span {
+    background-color: #c8444480;
+    box-shadow: none;
+}
+.schedule-fields button:hover span {
+    box-shadow: 0 0 2px #c84444;
+} 
+
+
 .add-schedule-dialog button.close-btn {
     position: absolute;
     top: 5px;

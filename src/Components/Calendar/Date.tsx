@@ -7,10 +7,10 @@ export interface DateType extends iDate {
     isCurrentMonth: boolean,
     isActive: boolean,
     setActive: (value: iDate) => void
-    workday: boolean | null
+    type: number | null
 }
 
-export default function DateComponent({date, month, year, isCurrentMonth, isActive, setActive, workday}: DateType) {
+export default function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive, type }: DateType) {
     const currentDate = new Date();
     const isCurrentDate = currentDate.getFullYear() === year &&
         currentDate.getMonth() === month &&
@@ -29,8 +29,8 @@ export default function DateComponent({date, month, year, isCurrentMonth, isActi
     if (isCurrentMonth) dateClass += ' current-month';
     if (isCurrentDate) dateClass += ' current-date';
     if (isActive) dateClass += ' active-date';
-    if (workday) dateClass += ' workday';
-    else if (workday === false) dateClass += ' weekend';
+    if (type) dateClass += ` date-type-${type}`;
+    // else if (type === false) dateClass += ' weekend';
 
     return (
         <div

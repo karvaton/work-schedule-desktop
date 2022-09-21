@@ -123,31 +123,31 @@
 }
 
 
-.workday {
+.date-type-1 {
     background-color: #ecd6df;
 }
-.date.current-month.current-date.workday {
+.date.current-month.current-date.date-type-1 {
     background-color: #ded1ec;
 }
-.date.current-month.workday {
+.date.current-month.date-type-1 {
     background-color: #d9adbf;
 }
-.current-date.workday {
+.current-date.date-type-1 {
     border: solid 1px #d9adbf;
     outline: solid 1px #d9adbf;
 }
 
 
-.weekend {
+.date-type-2 {
     background-color: #daeed9;
 }
-.date.current-month.current-date.weekend {
+.date.current-month.current-date.date-type-2 {
     background-color: #c4e3e6;
 }
-.date.current-month.weekend {
+.date.current-month.date-type-2 {
     background-color: #aed9ad;
 }
-.current-date.weekend {
+.current-date.date-type-2 {
     border: solid 1px #aed9ad;
     outline: solid 1px #aed9ad;
 }

@@ -1,49 +1,37 @@
 import { iDate } from "../models/iDate";
-import { iSchedule } from "../models/iSchedules";
+import { iSchedule, TypesOfSchedule } from "../models/iSchedules";
 
 
 export interface iScheduleDate extends iDate {
-    workday: boolean | null
+    type: number | null
 }
 
 export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSchedule) {
     if (inputScheduleData) {
-        const { firstDate, countOfWeekends, countOfWorkdays } = inputScheduleData;
-        let leftWorkdays = countOfWorkdays;
-        let leftWeekends = countOfWeekends - 1;
+        const { firstDate, exceptions, types } = inputScheduleData;
+        let countOfScheduleDays = types.reduce((prevValue, { value }) => prevValue + value, 0);
+        let daysLeft = countOfScheduleDays;
         const startDateTimestamp = getTimestamp(firstDate);
 
         if (startDateTimestamp < getTimestamp(dates[0])) {
             const dayDiff = getDatesDiff(firstDate, dates[0]);
-            const dayNumber = dayDiff % (countOfWorkdays + countOfWeekends);
-            leftWorkdays = leftWorkdays - dayNumber;
-            
-            if (leftWorkdays < 1) {
-                leftWeekends = leftWeekends - dayNumber + countOfWorkdays;
-                leftWorkdays = 0;
-            }
+            daysLeft = dayDiff % countOfScheduleDays;
         }
 
         return dates.map((date): iScheduleDate => {
             const dateTimestamp = getTimestamp(date);
 
             if (dateTimestamp >= startDateTimestamp) {
-                if (leftWorkdays) {
-                    leftWorkdays--;
-                    return { ...date, workday: true }
-                } else if (leftWeekends) {
-                    leftWeekends--;
-                    return { ...date, workday: false }
-                } else {
-                    leftWeekends = countOfWeekends - 1;
-                    leftWorkdays = countOfWorkdays;
-                    return { ...date, workday: false }
+                let type = getType(types, daysLeft);
+                if (Object.keys(exceptions).indexOf(`${dateTimestamp}`) > -1) {
+                    type = exceptions[dateTimestamp];
                 }
+                return { ...date, type }
             }
-            return { ...date, workday: null }
+            return { ...date, type: null }
         });
     } else {
-        return dates.map(date => ({ ...date, workday: null }));
+        return dates.map(date => ({ ...date, type: null }));
     }
 }
 
@@ -58,3 +46,17 @@ function getDatesDiff(start: iDate, current: iDate) {
     return Math.round(timeDiff/(1000 * 3600 * 24));
 }
 
+
+function getType(types: TypesOfSchedule[], initValue: number): number | null {
+    let type: number | null = null;
+    let prevVal = 0;
+    for (let i = types.length - 1; i >= 0; i--) {
+        const { id, value } = types[i];
+        if (value >= initValue - prevVal) {
+            type = id;
+            break;
+        };
+        prevVal += value;
+    }
+    return type;
+}

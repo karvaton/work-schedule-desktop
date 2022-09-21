@@ -11,7 +11,7 @@ type DatesType = {
     firstWeekDay: number
 }
 
-export default function Dates({month, year, firstWeekDay}: DatesType) {
+export default function Dates({ month, year, firstWeekDay }: DatesType) {
     const currentDate = new Date();
     const datesArray = getDatesArray(month, year, firstWeekDay);
     const {active, schedules} = useAppSelector(state => state.schedules);
@@ -39,7 +39,7 @@ export default function Dates({month, year, firstWeekDay}: DatesType) {
                         item.year === activeDate.year
                     }
                     setActive={setActiveDate}
-                    workday={item.workday}
+                    type={item.type}
                 />
             )}
         </div>
