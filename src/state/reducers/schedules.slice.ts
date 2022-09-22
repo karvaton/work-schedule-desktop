@@ -64,7 +64,9 @@ export const SchedulesSlice = createSlice({
             const active = state.active;
             const index = state.schedules.findIndex(({ id }) => id === active);
             const [timestamp, value] = payload;
-            state.schedules[index].exceptions[timestamp] = value;
+            if (index >= 0) {
+                state.schedules[index].exceptions[timestamp] = value;
+            }
         },
     }
 });

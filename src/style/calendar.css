@@ -153,6 +153,21 @@
 }
 
 
+.date-type-3 {
+    background-color: #acf6;
+}
+.date.current-month.current-date.date-type-3 {
+    background-color: #79d5f2;
+}
+.date.current-month.date-type-3 {
+    background-color: #acf;
+}
+.current-date.date-type-3 {
+    border: solid 1px #acf;
+    outline: solid 1px #acf;
+}
+
+
 div.date.active-date {
     border: solid 1px #4588c4;
     outline: solid 1px #4588c4;

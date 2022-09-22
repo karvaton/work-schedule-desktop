@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAppSelector } from "../../hooks/redux";
 import { iDate } from "../../models/iDate";
 import { getDatesArray } from "../../utilities/calendar.utility"
@@ -13,10 +13,10 @@ type DatesType = {
 
 export default function Dates({ month, year, firstWeekDay }: DatesType) {
     const currentDate = new Date();
-    const datesArray = getDatesArray(month, year, firstWeekDay);
+    const datesArray = useMemo(() => getDatesArray(month, year, firstWeekDay), [month, year, firstWeekDay]);
     const {active, schedules} = useAppSelector(state => state.schedules);
-    const schedule = schedules.find(({ id }) => id === active);
-    const schedulesArr = transformScheduleDates(datesArray, schedule);
+    const schedule = useMemo(() => schedules.find(({ id }) => id === active), [active, schedules]);
+    const schedulesArr = useMemo(() => transformScheduleDates(datesArray, schedule), [datesArray, schedule]);
     
     const [activeDate, setActiveDate] = useState<iDate>({
         date: currentDate.getDate(),

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { iDate } from "../../models/iDate";
 import ContextMenu, { Offset } from "../ContextMenu";
 import AddExceptionMenu from "./AddExceptionMenu";
+import { getTimestamp } from "../../utilities/schedule.utility";
+
 
 export interface DateType extends iDate {
     isCurrentMonth: boolean,
@@ -10,7 +12,8 @@ export interface DateType extends iDate {
     type: number | null
 }
 
-export default function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive, type }: DateType) {
+// const DateComponent = 
+function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive, type }: DateType) {
     const currentDate = new Date();
     const isCurrentDate = currentDate.getFullYear() === year &&
         currentDate.getMonth() === month &&
@@ -24,12 +27,13 @@ export default function DateComponent({ date, month, year, isCurrentMonth, isAct
         const left = event.clientX;
         toggleContext({ top, left });
     }
-    
+
     let dateClass = 'date';
     if (isCurrentMonth) dateClass += ' current-month';
     if (isCurrentDate) dateClass += ' current-date';
     if (isActive) dateClass += ' active-date';
     if (type) dateClass += ` date-type-${type}`;
+    // if (type) dateClass += ` workday`;
     // else if (type === false) dateClass += ' weekend';
 
     return (
@@ -42,10 +46,14 @@ export default function DateComponent({ date, month, year, isCurrentMonth, isAct
             {showContext ? (
                 <ContextMenu offset={showContext} close={() => toggleContext(false)} >
                     <AddExceptionMenu
-                        close={() => toggleContext(false)} 
+                        type={type}
+                        timestamp={getTimestamp({ date, month, year })}
+                        close={() => toggleContext(false)}
                     />
                 </ContextMenu>
             ) : null}
         </div>
     )
-}
+};
+
+export default DateComponent;

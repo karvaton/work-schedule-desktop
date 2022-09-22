@@ -26,6 +26,7 @@ export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSche
                 if (Object.keys(exceptions).indexOf(`${dateTimestamp}`) > -1) {
                     type = exceptions[dateTimestamp];
                 }
+                daysLeft = daysLeft > 1 ? daysLeft - 1 : countOfScheduleDays;
                 return { ...date, type }
             }
             return { ...date, type: null }
@@ -36,7 +37,7 @@ export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSche
 }
 
 
-function getTimestamp({ date, month, year }: iDate) {
+export function getTimestamp({ date, month, year }: iDate) {
     return new Date(year, month, date).getTime();
 }
 

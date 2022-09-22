@@ -57,6 +57,16 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
         closeFn();
     }
 
+    function updateScheduleFields(scheduleType: TypesOfSchedule) {
+        const types = [...scheduleTypes];
+        const typeIndex = scheduleTypes.findIndex(({ id }) => id === scheduleType.id);
+        types.splice(typeIndex, 1, scheduleType);
+        // console.log(scheduleType);
+        // console.log(scheduleTypes);
+        // console.log(types);
+        setScheduleTypes(types);
+    }
+
     return (
         <div className="add-schedule-dialog dialog">
             <label htmlFor="title">Title</label>
@@ -94,6 +104,7 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
                             scheduleTypes.filter(item => item.id !== id)
                         )}
                         enableRemoving={scheduleTypes.length < 3}
+                        updateFields={updateScheduleFields}
                     />
                 )}
             </div>
