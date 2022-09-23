@@ -14,8 +14,7 @@ export default function AddExceptionMenu({ type, timestamp, close }: AddExceptio
     const { addException } = SchedulesSlice.actions;
     const dispatch = useAppDispatch();
 
-    function setException() {
-        console.log(type);
+    function setException(type: number | null) {
         if (type !== null) {
             dispatch(addException([timestamp, type]));
         }
@@ -23,9 +22,13 @@ export default function AddExceptionMenu({ type, timestamp, close }: AddExceptio
     }
 
     return (
-        <div className="context-menu">
+        <div className="context-menu" onMouseDown={e => e.stopPropagation()}>
             {types.map(({ id, title }) => 
-                <div key={id} className="option" onClick={setException}>
+                <div
+                    key={id}
+                    className="option"
+                    onClick={() => setException(id)}
+                >
                     {`Set this date a '${title}'`}
                 </div>
             )}
