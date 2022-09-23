@@ -15,7 +15,7 @@ export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSche
 
         if (startDateTimestamp < getTimestamp(dates[0])) {
             const dayDiff = getDatesDiff(firstDate, dates[0]);
-            daysLeft = dayDiff % countOfScheduleDays;
+            daysLeft = countOfScheduleDays - (dayDiff % countOfScheduleDays);
         }
 
         return dates.map((date): iScheduleDate => {
@@ -23,8 +23,9 @@ export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSche
 
             if (dateTimestamp >= startDateTimestamp) {
                 let type = getType(types, daysLeft);
-                if (Object.keys(exceptions).indexOf(`${dateTimestamp}`) > -1) {
+                if (Object.keys(exceptions).map(item => Number(item)).indexOf(dateTimestamp) > -1) {
                     type = exceptions[dateTimestamp];
+                    console.log(type);
                 }
                 daysLeft = daysLeft > 1 ? daysLeft - 1 : countOfScheduleDays;
                 return { ...date, type }
