@@ -68,7 +68,8 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 8px 0px #8c8c8c;
+    box-shadow: 3px 3px 8px -1px #8c8c8c;
+    border-radius: 5px;
 }
 
 .add-schedule-dialog {
@@ -98,9 +99,6 @@
     text-align: center;
 }
 
-.schedule-fields input {
-    /* padding: 5px; */
-}
 
 .schedule-fields button {
     border: none;

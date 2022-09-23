@@ -28,7 +28,7 @@ export default function ScheduleFiedlds({ removeField, updateFields, enableRemov
             <input
                 type="text"
                 className="schedule-field-value"
-                value={types.value ? `${types.value}` : ''}
+                value={value ? `${value}` : ''}
                 onChange={e => update(title, Number(e.target.value.match(/\d/g)?.join('')) || 0)}
             />
             <button onClick={removeField} disabled={enableRemoving}>

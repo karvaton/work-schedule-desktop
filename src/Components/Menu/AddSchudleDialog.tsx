@@ -61,9 +61,6 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
         const types = [...scheduleTypes];
         const typeIndex = scheduleTypes.findIndex(({ id }) => id === scheduleType.id);
         types.splice(typeIndex, 1, scheduleType);
-        // console.log(scheduleType);
-        // console.log(scheduleTypes);
-        // console.log(types);
         setScheduleTypes(types);
     }
 
