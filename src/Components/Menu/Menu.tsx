@@ -6,7 +6,7 @@ import Modal from '../Modal';
 import { SchedulesSlice } from '../../state/reducers/schedules.slice';
 import ConfirmDialog from './Confirm';
 import { iSchedule } from '../../models/iSchedules';
-import { ScheduleLI } from './SchedileListItem';
+import { ScheduleLI } from './ScheduleListItem';
 
 
 export default function Menu() {
