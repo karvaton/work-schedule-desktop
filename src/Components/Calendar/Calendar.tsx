@@ -7,11 +7,13 @@ import WeekDays from './WeekDays';
 
 
 export default function Calendar() {
-    const { month, year, settings: {firstWeekday} } = useAppSelector(state => state.calendar)
+    const { month, year, settings: {firstWeekday} } = useAppSelector(state => state.calendar);    
+    const monthFullName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(year, month));
 
     return (
         <div className="calendar-area">
             <div className="calendar-management">
+                <h2>{`${monthFullName}, ${year}`}</h2>
                 <CalendarSwicther />
                 <CalendarSettings />
             </div>

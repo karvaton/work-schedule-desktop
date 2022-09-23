@@ -32,8 +32,9 @@ export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListIte
                         dispatch(scheduleActions.startEditing({ id }));
                         openEdit();
                     }}
+                    title="Edit this schedule"
                 >
-                    <EditIcon height={'15px'} width={'20px'} />
+                    <EditIcon height={'15px'} width={'20px'} title='' />
                 </button>
                 <button
                     className="schedule-btn-remove"
@@ -41,8 +42,9 @@ export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListIte
                         e.stopPropagation();
                         openRemove({ id, title });
                     }}
+                    title="Delete this schedule"
                 >
-                    <DeleteIcon height={'25px'}  width={'20px'} />
+                    <DeleteIcon height={'25px'} width={'20px'} title='' />
                 </button>
             </div>
         </li>
