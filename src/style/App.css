@@ -55,8 +55,9 @@ main {
 .context-menu-container {
   position: fixed;
   background: #fff;
-  box-shadow: 3px 3px 6px #676767;
+  box-shadow: 3px 3px 6px -1px #676767;
   width: auto;
+  border-radius: 5px;
 }
 
 .context-menu-container > .context-menu {
