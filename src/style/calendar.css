@@ -13,14 +13,14 @@
 .calendar-management {
     position: relative;
     display: flex;
-    margin: 10px 0;
-    margin-right: 15px;
+    margin: 10px 15px;
     justify-content: space-between;
 }
 
 .calendar-management h2 {
     margin: 0;
     flex: 1;
+    text-align: left;
 }
 
 .calendar-switcher {
