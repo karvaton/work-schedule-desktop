@@ -1,5 +1,6 @@
 .App {
-  display: flex;
+  display: grid;
+  grid-template-columns: 200px 1fr;
   text-align: center;
   margin: 0 5%;
   height: 100vh;
@@ -18,14 +19,6 @@
 
 .App-link {
   color: #61dafb;
-}
-
-aside {
-  width: 200px;
-}
-
-main {
-  flex: 1;
 }
 
 .dialog-wrapper {

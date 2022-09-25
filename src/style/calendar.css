@@ -3,10 +3,16 @@
     height: 100%;
     margin: 0 10px;
     padding: 10px 10px 40px;
-    /* border: solid 1px #4f4f4f; */
     border-top: none;
     border-bottom: none;
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-rows: min-content 1fr;
+}
+
+.calendar-container {
     display: flex;
+    flex: 1;
     flex-direction: column;
 }
 
@@ -73,12 +79,42 @@
 
 
 .calendar {
-    height: 65%;
     padding: 10px;
     border: solid 2px #b3b3b3;
     border-radius: 10px;
     flex: 1;
 }
+
+
+.calendar-info-container {
+    display: flex;
+}
+
+.calendar-info {
+    flex: 1;
+    width: 200px;
+}
+
+.calendar-info > div {
+    margin: 0 10px;
+}
+
+.calendar-info-header {
+    margin: 0;
+    padding: 5px 10px;
+}
+
+.calendar-info > div {
+    display: flex;
+    align-items: center;
+}
+
+.calendar-info .color-item-example {
+    height: 20px;
+    width: 20px;
+    margin: 7px 10px;
+}
+
 
 .week {
     display: grid;

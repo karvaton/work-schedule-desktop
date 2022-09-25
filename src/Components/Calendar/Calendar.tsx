@@ -7,10 +7,12 @@ import CalendarSettings from './CalendarSettings';
 import CalendarSwicther from './CalendarSwitch';
 import Dates from './Dates';
 import WeekDays from './WeekDays';
+import CalendarInfo from './CalendarInfo';
 
 
 export default function Calendar() {
     const lang = useContext<string>(LangContext);
+    const { active } = useAppSelector(state => state.schedules);
     const { month, year, settings: {firstWeekday} } = useAppSelector(state => state.calendar);    
     const monthFullName = new Intl.DateTimeFormat(lang, { month: 'long' }).format(new Date(year, month));
 
@@ -21,10 +23,14 @@ export default function Calendar() {
                 <CalendarSwicther />
                 <CalendarSettings />
             </div>
+            <div></div>
             <div className="calendar">
                 <WeekDays firstDay={firstWeekday} />
                 <Dates year={year} month={month} firstWeekDay={firstWeekday} />
             </div>
+            {active ? (
+                <CalendarInfo />
+            ) : null}
         </div>
     )
 }
