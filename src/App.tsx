@@ -4,15 +4,20 @@ import Menu from './Components/Menu/Menu';
 import './style/App.css';
 
 
+const defaultLang = navigator.language;
+export const LangContext = React.createContext(defaultLang);
+
 function App() {
     return (
         <div className="App">
-            <aside>
-                <Menu />
-            </aside>
-            <main>
-                <Calendar />
-            </main>
+            <LangContext.Provider value={localStorage.getItem('lang') || defaultLang}>
+                <aside>
+                    <Menu />
+                </aside>
+                <main>
+                    <Calendar />
+                </main>
+            </LangContext.Provider>
         </div>
     );
 }

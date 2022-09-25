@@ -38,6 +38,7 @@ export const SchedulesSlice = createSlice({
             if (state.active === payload.id) {
                 state.active = 0;
             } 
+            saveSchedulesState(JSON.stringify(state.schedules));
         },
 
         startEditing(state, { payload }: PayloadAction<Pick<iSchedule, 'id'>>) {
@@ -67,6 +68,7 @@ export const SchedulesSlice = createSlice({
             if (index >= 0) {
                 state.schedules[index].exceptions[timestamp] = value;
             }
+            saveSchedulesState(JSON.stringify(state.schedules));
         },
     }
 });

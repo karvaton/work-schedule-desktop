@@ -1,5 +1,7 @@
 import { iDate } from "../models/iDate";
 
+const lang = localStorage.getItem('lang') || 'en-US';
+
 export function getMonthLength(
     month = new Date().getMonth(),
     year = new Date().getFullYear()
@@ -82,7 +84,7 @@ type MonthFormatType = "long" | "short" | "narrow" | undefined
 export function createWeekDaysArray(formatType: MonthFormatType = 'long') {
     const date = new Date(2022, 4);
     return Array(7).fill(0).map((item, i) => new Intl
-        .DateTimeFormat('en-US', { weekday: formatType })
+        .DateTimeFormat(lang, { weekday: formatType })
         .format(date.setDate(i + 1)));
 }
 
@@ -91,7 +93,7 @@ type WeekDaysFormatType = "long" | "short" | "narrow" | "numeric" | "2-digit" | 
 export function createMonthArray(formatType: WeekDaysFormatType = 'long') {
     const date = new Date();
     return Array(12).fill(0).map((item, i) => new Intl
-        .DateTimeFormat('en-US', { month: formatType })
+        .DateTimeFormat(lang, { month: formatType })
         .format(date.setMonth(i)));
 }
 
