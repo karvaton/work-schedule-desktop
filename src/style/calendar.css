@@ -54,16 +54,23 @@
 
 .settings-container {
     position: absolute;
-    width: 240px;
+    width: 280px;
     right: 0;
     top: 30px;
     padding: 20px;
     background: #fff;
     border: solid 1px #ddd;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     box-shadow: 0 0 5px -3px #000;
 }
+
+.setting {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+}
+
 
 .calendar {
     height: 65%;

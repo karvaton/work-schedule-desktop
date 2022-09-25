@@ -3,6 +3,7 @@ import { calendarSlice } from "../../state/reducers/calendar.slice";
 import { createMonthArray, createYearArray } from "../../utilities/calendar.utility";
 import { ReactComponent as BackIcon } from '../../static/icons/left-arrow-svgrepo-com.svg';
 import { ReactComponent as ForwardIcon } from '../../static/icons/right-arrow-svgrepo-com.svg';
+import { FormattedMessage, useIntl } from "react-intl";
 
 
 const monthes = createMonthArray();
@@ -11,6 +12,7 @@ export default function CalendarSwicther() {
     const { month, year } = useAppSelector(state => state.calendar);
     const { setYear, setMonth } = calendarSlice.actions;
     const dispatch = useAppDispatch();
+    const intl = useIntl();
 
     function back() {
         const prevMonth = month - 1 < 0 ?
@@ -44,11 +46,30 @@ export default function CalendarSwicther() {
 
     return (
         <div className="calendar-switcher">
-            <button className="get-today" onClick={setToday}>Today</button>
-            <button className="back" onClick={back} title="Previous month">
+            <button className="get-today" onClick={setToday}>
+                <FormattedMessage
+                    id="Today"
+                    defaultMessage="Today"
+                />
+            </button>
+            <button
+                className="back"
+                onClick={back}
+                title={intl.formatMessage({
+                    id: "Previous month",
+                    defaultMessage: "Previous month"
+                })}
+            >
                 <BackIcon height={'20px'} width={'30px'} />
             </button>
-            <button className="forward" onClick={forward} title="Next month">
+            <button
+                className="forward"
+                onClick={forward}
+                title={intl.formatMessage({
+                    id: "Next month",
+                    defaultMessage: "Next month"
+                })}
+            >
                 <ForwardIcon height={'20px'} width={'30px'} />
             </button>
             <select
@@ -56,6 +77,10 @@ export default function CalendarSwicther() {
                 onChange={e => 
                     dispatch(setMonth(Number(e.target.value)))
                 }
+                title={intl.formatMessage({
+                    id: "Choose month",
+                    defaultMessage: "Choose month"
+                })}
             >
                 {monthes.map((month, index) =>
                     <option key={index} value={index}>{month}</option>
@@ -66,7 +91,10 @@ export default function CalendarSwicther() {
                 onChange={e => 
                     dispatch(setYear(Number(e.target.value)))
                 }
-                title="Choose month"
+                title={intl.formatMessage({
+                    id: "Choose year",
+                    defaultMessage: "Choose year"
+                })}
             >
                 {createYearArray(year).map(year =>
                     <option key={year} value={year}>{year}</option>

@@ -14,7 +14,6 @@ export interface DateType extends iDate {
     title?: string
 }
 
-// const DateComponent = 
 function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive, type, title }: DateType) {
     const currentDate = new Date();
     const isCurrentDate = currentDate.getFullYear() === year &&
@@ -31,15 +30,19 @@ function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive,
     }
 
     let dateClass = 'date';
-    let backgroundColor = 'none';
     if (isCurrentMonth) dateClass += ' current-month';
     if (isCurrentDate) dateClass += ' current-date';
     if (isActive) dateClass += ' active-date';
+    
+    let backgroundColor = '';
     if (type !== null) {
+        console.log(date);
         backgroundColor = palette.getColor(type)
         if (!isCurrentMonth) {
             backgroundColor = Palette.highlight(backgroundColor);
         };
+    } else {
+        backgroundColor = '';
     };
 
     return (

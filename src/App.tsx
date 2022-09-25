@@ -1,16 +1,17 @@
 import React from 'react';
-import Calendar from './Components/Calendar/Calendar';
-import Menu from './Components/Menu/Menu';
 import './style/App.css';
 
+import Calendar from './Components/Calendar/Calendar';
+import Menu from './Components/Menu/Menu';
 
-const defaultLang = navigator.language;
+
+const defaultLang = localStorage.getItem('lang') || navigator.language || 'en-US';
 export const LangContext = React.createContext(defaultLang);
 
 function App() {
     return (
         <div className="App">
-            <LangContext.Provider value={localStorage.getItem('lang') || defaultLang}>
+            <LangContext.Provider value={defaultLang}>
                 <aside>
                     <Menu />
                 </aside>

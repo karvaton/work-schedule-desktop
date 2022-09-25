@@ -1,3 +1,5 @@
+import { FormattedMessage } from "react-intl";
+
 type ConfirmDialogType = {
     question: string
     onAccept: () => void
@@ -12,7 +14,12 @@ export default function ConfirmDialog({ question, onAccept, onDecline }: Confirm
                     name="confirm-cancel"
                     className="confirm-cancel"
                     onClick={onDecline}
-                >Cancel</button>
+                >
+                    <FormattedMessage
+                        id="Cancel"
+                        defaultMessage="Cancel"
+                    />
+                </button>
                 <button
                     name="confirm-ok"
                     className="confirm-ok"

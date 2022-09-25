@@ -1,3 +1,4 @@
+import { useIntl } from "react-intl";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { iSchedule } from "../../models/iSchedules";
 import { SchedulesSlice } from "../../state/reducers/schedules.slice";
@@ -15,6 +16,7 @@ export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListIte
     const dispatch = useAppDispatch();
     const { active } = useAppSelector(state => state.schedules);
     const scheduleActions = SchedulesSlice.actions;
+    const intl = useIntl();
 
     return (
         <li
@@ -32,7 +34,10 @@ export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListIte
                         dispatch(scheduleActions.startEditing({ id }));
                         openEdit();
                     }}
-                    title="Edit this schedule"
+                    title={intl.formatMessage({
+                        id: "Edit this schedule",
+                        defaultMessage: "Edit this schedule"
+                    })}
                 >
                     <EditIcon height={'15px'} width={'20px'} title='' />
                 </button>
@@ -42,7 +47,10 @@ export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListIte
                         e.stopPropagation();
                         openRemove({ id, title });
                     }}
-                    title="Delete this schedule"
+                    title={intl.formatMessage({
+                        id: "Delete this schedule",
+                        defaultMessage: "Delete this schedule"
+                    })}
                 >
                     <DeleteIcon height={'25px'} width={'20px'} title='' />
                 </button>

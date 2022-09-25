@@ -5,17 +5,33 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import setupStore from './state/store';
 import { Provider } from 'react-redux';
+import { IntlProvider } from 'react-intl';
+import English from './lang/en.json';
+import Ukrainian from './lang/uk.json';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 const store = setupStore();
+const locale = localStorage.getItem('lang') || navigator.language;
+
+let lang = English;
+switch (locale) {
+  case 'uk':
+    lang = Ukrainian;
+    break;
+
+  default:
+    break;
+}
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <IntlProvider locale={locale} messages={lang}>
+        <App />
+      </IntlProvider>
     </Provider>
   </React.StrictMode>
 );

@@ -7,6 +7,7 @@ import { SchedulesSlice } from '../../state/reducers/schedules.slice';
 import ConfirmDialog from './Confirm';
 import { iSchedule } from '../../models/iSchedules';
 import { ScheduleLI } from './ScheduleListItem';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 
 export default function Menu() {
@@ -15,6 +16,7 @@ export default function Menu() {
     const scheduleActions = SchedulesSlice.actions;
     const { schedules } = useAppSelector(state => state.schedules);
     const dispatch = useAppDispatch();
+    const intl = useIntl();
 
     return (
         <>
@@ -23,7 +25,10 @@ export default function Menu() {
                     className="add-schedule schedules"
                     onClick={() => toggleAddScheduleDialog(true)}
                 >
-                    Add schedule +
+                    <FormattedMessage
+                        id='Add schedule'
+                        defaultMessage='Add schedule'
+                    /> +
                 </li>
                 {schedules.map(({ id, title }) => 
                     <ScheduleLI
@@ -37,7 +42,12 @@ export default function Menu() {
                 {openedConfirmDialog ? 
                     <Modal darkBackground opened={!!openedConfirmDialog.id}>
                         <ConfirmDialog
-                            question={`Delete schedule "${openedConfirmDialog.title}"?`}
+                            question={intl.formatMessage({
+                                id: "Delete schedule",
+                                defaultMessage: `Delete schedule "{title}"?`
+                            }, {
+                                title: openedConfirmDialog.title 
+                            })}
                             onAccept={() => {
                                 dispatch(scheduleActions.remove({ id: openedConfirmDialog.id }));
                                 toggleConfirmDialog(false);

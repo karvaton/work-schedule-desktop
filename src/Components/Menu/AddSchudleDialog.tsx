@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { TypesOfSchedule } from "../../models/iSchedules";
 import { SchedulesSlice } from "../../state/reducers/schedules.slice";
@@ -10,6 +11,7 @@ type AddSchudleDialogType = {
     closeFn: () => void
 }
 export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
+    const intl = useIntl();
     const { editing, schedules } = useAppSelector(state => state.schedules);
     const inputSchedule = schedules.find(({ id }) => id === editing);
     const [title, setTitle] = useState<string>(inputSchedule?.title || '');
@@ -19,11 +21,17 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
     const [scheduleTypes, setScheduleTypes] = useState<TypesOfSchedule[]>(
         inputSchedule?.types ? inputSchedule?.types : [{
             id: 0,
-            title: 'Workdays',
+            title: intl.formatMessage({
+                id: 'Workdays',
+                defaultMessage: 'Workdays'
+            }),
             value: 0
         }, {
             id: 1,
-            title: 'Weekends',
+            title: intl.formatMessage({
+                id: 'Weekends',
+                defaultMessage: 'Weekends'
+            }),
             value: 0
         }]
     );
@@ -66,16 +74,25 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
 
     return (
         <div className="add-schedule-dialog dialog">
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">
+                <FormattedMessage 
+                    id="Schedule name"
+                    defaultMessage="Schedule name"
+                />
+            </label>
             <input
                 type="text"
                 name="title"
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                placeholder="Name"
             />
             <label htmlFor="choose-date">
-                Choose first day
+                <FormattedMessage
+                    id="Choose first day"
+                    defaultMessage="Choose first day"
+                />
             </label>
             <input
                 type="date"
@@ -84,11 +101,26 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
                 value={firstDate ? formatDate(firstDate) : ''}
                 onChange={(e) => setFirstDate(e.target.valueAsDate)}
             />
-            <label>Set fields of schedule</label>
-            <div className="schedule-fields">
+            <label>
+                <FormattedMessage
+                    id="Set fields of schedule"
+                    defaultMessage="Set work shifts"
+                />
+            </label>
 
-                <div className="schedule-field-header">Title</div>
-                <div className="schedule-field-header">Count</div>
+            <div className="schedule-fields">
+                <div className="schedule-field-header">
+                    <FormattedMessage
+                        id="Title"
+                        defaultMessage="Title"
+                    />
+                </div>
+                <div className="schedule-field-header">
+                    <FormattedMessage
+                        id="Days"
+                        defaultMessage="Days"
+                    />
+                </div>
                 <div></div>
 
                 {scheduleTypes.map(({ id, title, value }) =>
@@ -113,15 +145,22 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
                         value: 0
                     }])}
                 >
-                    Add another field
+                    <FormattedMessage
+                        id="Add another field"
+                        defaultMessage="Add another field"
+                    />
                 </button>
             ) : null}
             <div className="open-close-btns">
-                <button onClick={closeDialog}>Cancel</button>
+                <button onClick={closeDialog}>
+                    <FormattedMessage
+                        id="Cancel"
+                        defaultMessage="Cancel"
+                    />
+                </button>
                 <button onClick={setScheduleParams}>OK</button>
             </div>
             <button className="close-btn" onClick={closeDialog}>x</button>
         </div>
     );
 }
-
