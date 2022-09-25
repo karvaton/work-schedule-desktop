@@ -5,6 +5,7 @@ import { TypesOfSchedule } from "../../models/iSchedules";
 import { SchedulesSlice } from "../../state/reducers/schedules.slice";
 import { formatDate } from "../../utilities/calendar.utility";
 import ScheduleFields from "./ScheduleFields";
+import { ReactComponent as CloseIcon } from '../../static/icons/close-svgrepo-com.svg';
 
 
 type AddSchudleDialogType = {
@@ -111,8 +112,8 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
             <div className="schedule-fields">
                 <div className="schedule-field-header">
                     <FormattedMessage
-                        id="Title"
-                        defaultMessage="Title"
+                        id="Work shifts"
+                        defaultMessage="Work shifts"
                     />
                 </div>
                 <div className="schedule-field-header">
@@ -160,7 +161,9 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
                 </button>
                 <button onClick={setScheduleParams}>OK</button>
             </div>
-            <button className="close-btn" onClick={closeDialog}>x</button>
+            <button className="close-btn" onClick={closeDialog}>
+                <CloseIcon height='30px' width='30px' />
+            </button>
         </div>
     );
 }

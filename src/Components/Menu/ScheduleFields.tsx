@@ -32,8 +32,8 @@ export default function ScheduleFiedlds({ removeField, updateFields, enableRemov
                 value={title}
                 onChange={e => update(e.target.value || '', value)}
                 placeholder={intl.formatMessage({
-                    id: "Work shift",
-                    defaultMessage: "Work shift"
+                    id: "Work shift title",
+                    defaultMessage: "Work shift title"
                 })}
             />
             <input

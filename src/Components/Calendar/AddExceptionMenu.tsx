@@ -22,7 +22,11 @@ export default function AddExceptionMenu({ type, timestamp, close }: AddExceptio
     }
 
     return (
-        <div className="context-menu" onMouseDown={e => e.stopPropagation()}>
+        <div
+            className="context-menu"
+            onMouseDown={e => e.stopPropagation()}
+            onPointerDown={e => e.stopPropagation()}
+        >
             {types.map(({ id, title }) => 
                 <div
                     key={id}

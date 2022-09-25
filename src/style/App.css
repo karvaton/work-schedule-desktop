@@ -58,6 +58,7 @@ main {
   box-shadow: 3px 3px 6px -1px #676767;
   width: auto;
   border-radius: 5px;
+  user-select: none;
 }
 
 .context-menu-container > .context-menu {

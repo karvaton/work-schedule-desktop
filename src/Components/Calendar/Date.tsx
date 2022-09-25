@@ -36,7 +36,6 @@ function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive,
     
     let backgroundColor = '';
     if (type !== null) {
-        console.log(date);
         backgroundColor = palette.getColor(type)
         if (!isCurrentMonth) {
             backgroundColor = Palette.highlight(backgroundColor);

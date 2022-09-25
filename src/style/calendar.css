@@ -117,6 +117,7 @@
     text-align: right;
     line-height: 11px;
     padding: 10px;
+    user-select: none;
 }
 .date:hover {
     border: solid 1px #1b1b1b;

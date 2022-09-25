@@ -20,6 +20,7 @@ export default function ContextMenu({ children, offset, close }: ContextMenuType
     el.classList.add('context-menu-wrapper');
     el.appendChild(childEl);
     el.addEventListener('mousedown', close);
+    el.addEventListener('pointerdown', close);
     childEl.classList.add('context-menu-container');
 
     childEl.style.top = offset.top + 'px';
