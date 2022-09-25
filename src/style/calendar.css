@@ -21,6 +21,7 @@
     margin: 0;
     flex: 1;
     text-align: left;
+    text-transform: capitalize;
 }
 
 .calendar-switcher {
