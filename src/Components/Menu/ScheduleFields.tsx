@@ -12,9 +12,14 @@ export default function ScheduleFiedlds({ removeField, updateFields, enableRemov
     const [value, setValue] = useState<number>(types.value || 0);
 
     function update(newTitle: string, newValue: number) {
-        title !== newTitle && setTitle(newTitle);
-        value !== newValue && setValue(newValue);
-        updateFields({ id, title, value });
+        if (title !== newTitle) {
+            setTitle(newTitle);
+            updateFields({ id, title: newTitle, value });
+        }
+        if (value !== newValue) {
+            setValue(newValue);
+            updateFields({ id, title, value: newValue });
+        }
     }
 
     return (

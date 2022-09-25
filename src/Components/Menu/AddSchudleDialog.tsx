@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { TypesOfSchedule } from "../../models/iSchedules";
 import { SchedulesSlice } from "../../state/reducers/schedules.slice";
 import { formatDate } from "../../utilities/calendar.utility";
-import ScheduleFields from "../Calendar/ScheduleFields";
+import ScheduleFields from "./ScheduleFields";
 
 
 type AddSchudleDialogType = {
@@ -18,12 +18,12 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
         : null);
     const [scheduleTypes, setScheduleTypes] = useState<TypesOfSchedule[]>(
         inputSchedule?.types ? inputSchedule?.types : [{
-            id: 1,
-            title: 'workdays',
+            id: 0,
+            title: 'Workdays',
             value: 0
         }, {
-            id: 2,
-            title: 'weekends',
+            id: 1,
+            title: 'Weekends',
             value: 0
         }]
     );
@@ -105,7 +105,7 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
                     />
                 )}
             </div>
-            {scheduleTypes.length < 5 ? (
+            {scheduleTypes.length < 10 ? (
                 <button
                     onClick={() => setScheduleTypes([...scheduleTypes, {
                         id: Math.max(...scheduleTypes.map(({ id }) => id)) + 1,

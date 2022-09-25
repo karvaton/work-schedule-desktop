@@ -25,7 +25,6 @@ export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSche
                 let type = getType(types, daysLeft);
                 if (Object.keys(exceptions).map(item => Number(item)).indexOf(dateTimestamp) > -1) {
                     type = exceptions[dateTimestamp];
-                    console.log(type);
                 }
                 daysLeft = daysLeft > 1 ? daysLeft - 1 : countOfScheduleDays;
                 return { ...date, type }
