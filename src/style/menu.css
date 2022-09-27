@@ -1,7 +1,7 @@
-#menu {
+.menu {
     list-style-type: none;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
     padding: 0;
 }
@@ -14,12 +14,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: solid 1px #b7b6b6;
+    border-bottom: solid 1px #b7b6b6;
     height: 36px;
     font-weight: 600;
     cursor: pointer;
 }
-.schedules:last-child {
+.schedules:nth-last-child(2) {
     border: none;
 }
 .schedules:hover {
@@ -31,6 +31,42 @@
 .schedules:hover > .schedule-manage-btns {
     display: flex;
 }
+
+.schedules button {
+    background: none;
+    border: none;
+}
+
+
+.schedules > .schedule-manage-btns-wrapper {
+    position: relative;
+}
+
+.schedules .schedule-manage-btns-collapse {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    width: 150px;
+    right: 0;
+    gap: 5px;
+    padding: 10px;
+    box-shadow: 2px 2px 3px -1px #808080;
+    border-radius: 5px;
+}
+
+.schedules .schedule-manage-btns-collapse > button {
+    padding: 5px 10px;
+    text-align: left;
+    font-size: 15px;
+}
+
+.schedules .schedule-manage-btns-more {
+    padding-top: 5px;
+}
+
+
 
 .schedule-manage-btns button {
     width: 23px;
@@ -50,7 +86,6 @@
 }
 
 .add-schedule {
-    order: -1;
     padding: 7px;
     border: solid 1px #b9cfd5;
     background: #ecf7fa;
@@ -58,6 +93,7 @@
     justify-content: center;
     border-radius: 7px;
     margin-top: 5px;
+    min-width: 130px;
 }
 .add-schedule:hover {
     background-color: #e0f0f5;
@@ -161,4 +197,33 @@
     margin-left: auto;
     display: flex;
     justify-content: space-between;
+}
+
+
+.open-menu-btn {
+    margin: 5px;
+    background: none;
+    border: none;
+}
+
+
+
+.App-mobile .menu {
+    position: fixed;
+    height: 100%;
+    top: -18px;
+    left: 0;
+    transform: translateX(-110%);
+    width: 70vw;
+    background: #fff;
+    z-index: 1;
+    transition: .2s;
+    padding: 20px;
+    box-shadow: -2px 0 20px 0px #808080;
+    font-size: 18px;
+    align-items: flex-start;
+}
+
+.App-mobile .menu-active {
+    transform: translateX(0%);
 }

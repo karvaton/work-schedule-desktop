@@ -22,5 +22,8 @@
     "Choose year": "Choose year",
     "Settings": "Settings",
     "First day of week": "First day of week",
-    "language": "Language"
+    "language": "Language",
+    "Set this date": "Set this date as \"{title}\"",
+    "Edit": "Edit",
+    "Remove": "Remove"
 }

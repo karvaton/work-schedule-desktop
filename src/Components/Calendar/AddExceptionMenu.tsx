@@ -1,4 +1,6 @@
+import { FormattedMessage } from "react-intl";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import useWindowSize from "../../hooks/useWindowSize";
 import { SchedulesSlice } from "../../state/reducers/schedules.slice";
 
 interface AddExceptionMenuType {
@@ -13,6 +15,8 @@ export default function AddExceptionMenu({ type, timestamp, close }: AddExceptio
     const types = schedule?.types.filter(({ id }) => id !== type) || [];
     const { addException } = SchedulesSlice.actions;
     const dispatch = useAppDispatch();
+    const [width] = useWindowSize();
+    const isMobile = width < 600;
 
     function setException(type: number | null) {
         if (type !== null) {
@@ -23,7 +27,7 @@ export default function AddExceptionMenu({ type, timestamp, close }: AddExceptio
 
     return (
         <div
-            className="context-menu"
+            className={isMobile ? "context-menu context-menu-mobile" : "context-menu"}
             onMouseDown={e => e.stopPropagation()}
             onPointerDown={e => e.stopPropagation()}
         >
@@ -33,7 +37,11 @@ export default function AddExceptionMenu({ type, timestamp, close }: AddExceptio
                     className="option"
                     onClick={() => setException(id)}
                 >
-                    {`Set this date a '${title}'`}
+                    <FormattedMessage
+                        id="Set this date"
+                        defaultMessage={`Set this date as "{title}"`}
+                        values={{ title }}
+                    />
                 </div>
             )}
         </div>

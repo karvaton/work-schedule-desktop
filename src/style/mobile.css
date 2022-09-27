@@ -1,0 +1,25 @@
+@media screen and (min-width: 900px) {
+    .calendar-area {
+        display: grid;
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    .calendar-management h2 {
+        font-size: 22px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .calendar-area {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .calendar-management h2 {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 720px) {
+}

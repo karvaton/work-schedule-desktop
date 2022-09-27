@@ -8,28 +8,34 @@ import ConfirmDialog from './Confirm';
 import { iSchedule } from '../../models/iSchedules';
 import { ScheduleLI } from './ScheduleListItem';
 import { FormattedMessage, useIntl } from 'react-intl';
+import useWindowSize from '../../hooks/useWindowSize';
+import { ReactComponent as MenuIcon } from "../../static/icons/menu-svgrepo-com.svg";
 
 
-export default function Menu() {
+type MenuType = {
+    opened?: boolean
+    closeMenuFn: () => void
+}
+export default function Menu({ opened, closeMenuFn }: MenuType) {
     const [openedConfirmDialog, toggleConfirmDialog] = useState<Pick<iSchedule, "id" | "title"> | false>(false);
     const [openedAddScheduleDialog, toggleAddScheduleDialog] = useState<boolean>(false);
     const scheduleActions = SchedulesSlice.actions;
     const { schedules } = useAppSelector(state => state.schedules);
     const dispatch = useAppDispatch();
     const intl = useIntl();
+    const [width] = useWindowSize();
+    const isMobile = width < 700;
 
     return (
         <>
-            <ul id="menu" className="menu">
-                <li
-                    className="add-schedule schedules"
-                    onClick={() => toggleAddScheduleDialog(true)}
-                >
-                    <FormattedMessage
-                        id='Add schedule'
-                        defaultMessage='Add schedule'
-                    /> +
-                </li>
+            <ul className={ opened ? "menu menu-active" : "menu" }>
+                {isMobile ? (
+                    <li>
+                        <button className="open-menu-btn" onClick={closeMenuFn}>
+                            <MenuIcon height='28px' />
+                        </button>
+                    </li>
+                ) : null}
                 {schedules.map(({ id, title }) => 
                     <ScheduleLI
                         key={id}
@@ -39,6 +45,15 @@ export default function Menu() {
                         openRemove={toggleConfirmDialog} 
                     />
                 )}
+                <li
+                    className="add-schedule schedules"
+                    onClick={() => toggleAddScheduleDialog(true)}
+                >
+                    <FormattedMessage
+                        id='Add schedule'
+                        defaultMessage='Add schedule'
+                    /> +
+                </li>
                 {openedConfirmDialog ? 
                     <Modal darkBackground opened={!!openedConfirmDialog.id}>
                         <ConfirmDialog

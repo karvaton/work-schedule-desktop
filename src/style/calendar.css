@@ -5,9 +5,12 @@
     padding: 10px 10px 40px;
     border-top: none;
     border-bottom: none;
-    display: grid;
-    grid-template-columns: 1fr min-content;
+    grid-template-columns: 1fr auto;
     grid-template-rows: min-content 1fr;
+}
+.App-mobile .calendar-area {
+    margin: 0;
+    width: 100vw;
 }
 
 .calendar-container {
@@ -18,9 +21,13 @@
 
 .calendar-management {
     position: relative;
-    display: flex;
     margin: 10px 15px;
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+.App-mobile .calendar-management {
+    margin: 10px 5px;
 }
 
 .calendar-management h2 {
@@ -33,13 +40,12 @@
 .calendar-switcher {
     display: flex;
     justify-content: space-evenly;
-    /* align-items: center; */
     width: 350px;
+    height: 35px;
 }
 
 .calendar-switcher button {
     padding: 0;
-    /* height: 25px; */
     display: flex;
     align-items: center;
     align-content: center;
@@ -51,12 +57,28 @@
 
 .calendar-settings {
     display: flex;
-    /* align-items: center; */
+    height: 35px;
+    position: relative;
 }
 
 .calendar-settings button {
     height: 100%;
+    margin: 0;
+    padding: 3px;
+    background: none;
+    border: none;
 }
+
+.calendar-settings button path:last-child {
+    fill: #959595
+}
+
+.setting {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+}
+
 
 .settings-container {
     position: absolute;
@@ -68,13 +90,7 @@
     border: solid 1px #ddd;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 5px -3px #000;
-}
-
-.setting {
-    display: flex;
-    justify-content: space-between;
-    margin: 5px;
+    box-shadow: 2px 2px 5px -3px #000;
 }
 
 
@@ -83,6 +99,10 @@
     border: solid 2px #b3b3b3;
     border-radius: 10px;
     flex: 1;
+    overflow: hidden;
+}
+.App-mobile .calendar {
+    border: none;
 }
 
 
@@ -92,7 +112,9 @@
 
 .calendar-info {
     flex: 1;
-    width: 200px;
+    height: 100%;
+    width: 15vw;
+    min-width: auto;
 }
 
 .calendar-info > div {
@@ -143,8 +165,10 @@
 }
 
 .dates {
+    position: relative;
     grid-template-rows: repeat(6, 1fr);
     height: calc(100% - 30px);
+    touch-action: none;
 }
 
 .date {

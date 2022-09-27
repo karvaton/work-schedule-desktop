@@ -4,15 +4,21 @@ import { createMonthArray, createYearArray } from "../../utilities/calendar.util
 import { ReactComponent as BackIcon } from '../../static/icons/left-arrow-svgrepo-com.svg';
 import { ReactComponent as ForwardIcon } from '../../static/icons/right-arrow-svgrepo-com.svg';
 import { FormattedMessage, useIntl } from "react-intl";
+import useWindowSize from "../../hooks/useWindowSize";
+import { useContext } from "react";
+import { TouchscreenContext } from "../../App";
 
 
 const monthes = createMonthArray();
 
 export default function CalendarSwicther() {
+    const isTouchScreen = useContext<boolean>(TouchscreenContext)
     const { month, year } = useAppSelector(state => state.calendar);
     const { setYear, setMonth } = calendarSlice.actions;
     const dispatch = useAppDispatch();
     const intl = useIntl();
+    const [width] = useWindowSize();
+    const isMobile = width < 600;
 
     function back() {
         const prevMonth = month - 1 < 0 ?
@@ -52,26 +58,30 @@ export default function CalendarSwicther() {
                     defaultMessage="Today"
                 />
             </button>
-            <button
-                className="back"
-                onClick={back}
-                title={intl.formatMessage({
-                    id: "Previous month",
-                    defaultMessage: "Previous month"
-                })}
-            >
-                <BackIcon height={'20px'} width={'30px'} />
-            </button>
-            <button
-                className="forward"
-                onClick={forward}
-                title={intl.formatMessage({
-                    id: "Next month",
-                    defaultMessage: "Next month"
-                })}
-            >
-                <ForwardIcon height={'20px'} width={'30px'} />
-            </button>
+            {(isMobile && isTouchScreen) ? null : (
+                <>
+                    <button
+                        className="back"
+                        onClick={back}
+                        title={intl.formatMessage({
+                            id: "Previous month",
+                            defaultMessage: "Previous month"
+                        })}
+                    >
+                        <BackIcon height={'20px'} width={'30px'} />
+                    </button>
+                    <button
+                        className="forward"
+                        onClick={forward}
+                        title={intl.formatMessage({
+                            id: "Next month",
+                            defaultMessage: "Next month"
+                        })}
+                    >
+                        <ForwardIcon height={'20px'} width={'30px'} />
+                    </button>
+                </>
+            )}
             <select
                 value={month}
                 onChange={e => 

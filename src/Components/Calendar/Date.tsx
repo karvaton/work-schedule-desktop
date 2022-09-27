@@ -4,6 +4,7 @@ import ContextMenu, { Offset } from "../ContextMenu";
 import AddExceptionMenu from "./AddExceptionMenu";
 import { getTimestamp } from "../../utilities/schedule.utility";
 import palette, { Palette } from "../../utilities/palette.utility";
+import { useAppSelector } from "../../hooks/redux";
 
 
 export interface DateType extends iDate {
@@ -20,6 +21,7 @@ function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive,
         currentDate.getMonth() === month &&
         currentDate.getDate() === date;
     const [showContext, toggleContext] = useState<Offset | false>(false);
+    const { active } = useAppSelector(state => state.schedules);
 
     function toggleContextMenu(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         event.preventDefault();
@@ -53,7 +55,7 @@ function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive,
             title={title}
         >
             {date < 10 ? `0${date}` : date}
-            {showContext ? (
+            {(active && showContext) ? (
                 <ContextMenu offset={showContext} close={() => toggleContext(false)} >
                     <AddExceptionMenu
                         type={type}

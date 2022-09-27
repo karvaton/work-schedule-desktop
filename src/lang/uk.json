@@ -22,5 +22,8 @@
     "Choose year": "Виберіть рік",
     "Settings": "Налаштування",
     "First day of week": "Перший день тижня",
-    "language": "Мова"
+    "language": "Мова",
+    "Set this date": "Встановити цю дату як \"{title}\"",
+    "Edit": "Редагувати",
+    "Remove": "Видалити"
 }

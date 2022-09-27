@@ -25,8 +25,8 @@ export default function ContextMenu({ children, offset, close }: ContextMenuType
 
     childEl.style.top = offset.top + 'px';
     childEl.style.left = offset.left + 'px';
-    if (window.innerWidth - 180 < offset.left) {
-        childEl.style.left = window.innerWidth - 180 + 'px';
+    if (window.innerWidth - 250 < offset.left) {
+        childEl.style.left = window.innerWidth - 250 + 'px';
     }
     
     useEffect(() => {

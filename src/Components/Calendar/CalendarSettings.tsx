@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { LangContext } from "../../App";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { calendarSlice } from "../../state/reducers/calendar.slice";
 import { createWeekDaysArray } from "../../utilities/calendar.utility"
+import { ReactComponent as SettingsIcon } from "../../static/icons/settings-5-fill-svgrepo-com.svg";
 
 
 const weekdays = createWeekDaysArray();
@@ -13,7 +13,7 @@ export default function CalendarSettings() {
     const { firstWeekday } = useAppSelector(state => state.calendar.settings);
     const { setFirstWeekday } = calendarSlice.actions;
     const dispatch = useAppDispatch();
-    const lang = useContext(LangContext);
+    const lang = localStorage.getItem('lang') || navigator.language || 'en-US';
 
     let containerTimer: NodeJS.Timeout;
     function hideSettings(delay: number) {
@@ -33,10 +33,7 @@ export default function CalendarSettings() {
                 onClick={() => setWindowActive(!windowActive)}
                 onMouseLeave={() => windowActive && hideSettings(500)}
             >
-                <FormattedMessage
-                    id="Settings"
-                    defaultMessage="Settings"
-                />
+                <SettingsIcon height='29px' width='29px' />
             </button>
             {windowActive ? (
                 <div

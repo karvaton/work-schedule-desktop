@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './style/App.css';
+import './style/mobile.css';
 
 import Calendar from './Components/Calendar/Calendar';
 import Menu from './Components/Menu/Menu';
+import useWindowSize from './hooks/useWindowSize';
 
 
-const defaultLang = localStorage.getItem('lang') || navigator.language || 'en-US';
-export const LangContext = React.createContext(defaultLang);
+export const TouchscreenContext = React.createContext(false);
 
 function App() {
+    const [width] = useWindowSize();
+    const isMobile = width < 720;
+    const [opened, toggleOpened] = useState(false);
+    
     return (
-        <div className="App">
-            <LangContext.Provider value={defaultLang}>
+        <div className={isMobile ? 'App App-mobile' : 'App'}>
+            <TouchscreenContext.Provider value={!!('ontouchstart' in window)}>
                 <aside>
-                    <Menu />
+                    <Menu opened={opened} closeMenuFn={() => toggleOpened(false)} />
                 </aside>
                 <main>
-                    <Calendar />
+                    <Calendar openMenuFn={() => toggleOpened(true)}/>
                 </main>
-            </LangContext.Provider>
+            </TouchscreenContext.Provider>
         </div>
     );
 }

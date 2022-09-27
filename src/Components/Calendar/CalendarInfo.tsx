@@ -4,16 +4,16 @@ import palette from "../../utilities/palette.utility";
 
 export default function CalendarInfo() {
     const { active, schedules } = useAppSelector(state => state.schedules);
-    const [opened, toggle] = useState<boolean>(true);
+    const [opened/* , toggle */] = useState<boolean>(true);
     const types = schedules.find(({ id }) => id === active)?.types || [];
 
     return (
         <section className="calendar-info-container">
             {opened ? (
                 <div className="calendar-info">
-                    <h3 className="calendar-info-header">
+                    {/* <h3 className="calendar-info-header">
                         Info
-                    </h3>
+                    </h3> */}
                     {types.map(({ id, title }) => (
                         <div key={id} className="calendar-info-item">
                             <div
@@ -25,7 +25,7 @@ export default function CalendarInfo() {
                     ))}
                 </div>
             ) : null}
-            <button
+            {/* <button
                 onClick={() => toggle(!opened)}
                 title={opened ?
                     'Hide info' :
@@ -33,7 +33,7 @@ export default function CalendarInfo() {
                 }
             >
                 {opened ? '<' : '>'}
-            </button>
+            </button> */}
         </section>
     )
 }
