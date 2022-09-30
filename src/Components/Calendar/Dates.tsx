@@ -72,13 +72,18 @@ export default function Dates({ month, year, firstWeekDay }: DatesType) {
         <div
             className="dates week"
             onPointerDown={e => {
+                e.stopPropagation();
                 if (isTouchScreen) {
                     setDrag(true);
                     setMoveStartX(e.clientX)
                 }
             }}
-            onPointerMove={e => isTouchScreen && isDrag && setShift(e.clientX - moveStartX)}
+            onPointerMove={e => {
+                e.stopPropagation();
+                isTouchScreen && isDrag && setShift(e.clientX - moveStartX);
+            }}
             onPointerUp={e => {
+                e.stopPropagation();
                 isTouchScreen && getMove(moveStartX, e.clientX);
                 setDrag(false); 
                 setShift(0);

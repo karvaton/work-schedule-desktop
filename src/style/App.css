@@ -11,6 +11,9 @@
   display: flex;
   margin: 0;
 }
+.App-mobile * {
+  touch-action: none;
+}
 
 .App-header {
   background-color: #282c34;
@@ -75,4 +78,8 @@
 
 .context-menu-container>.context-menu .option:hover {
   background-color: #efefef;
+}
+
+main {
+  touch-action: none;
 }

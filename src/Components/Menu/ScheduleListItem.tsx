@@ -37,7 +37,10 @@ export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListIte
             <span>{title}</span>
             {(isTouchScreen && isMobile) ? (
                 <div className="schedule-manage-btns-wrapper">
-                    <button className="schedule-manage-btns-more" onClick={() => setShowMenu(!showMenu)}>
+                    <button
+                        className="schedule-manage-btns-more"
+                        onClick={() => setShowMenu(!showMenu)}
+                    >
                         <MoreIcon height='25px'/>
                     </button>
                     {showMenu ? (
@@ -45,6 +48,7 @@ export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListIte
                             <button
                                 className="schedule-btn-edit"
                                 onClick={() => {
+                                    setShowMenu(false);
                                     dispatch(scheduleActions.startEditing({ id }));
                                     openEdit();
                                 }}
@@ -62,6 +66,7 @@ export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListIte
                                 className="schedule-btn-remove"
                                 onClick={e => {
                                     e.stopPropagation();
+                                    setShowMenu(false);
                                     openRemove({ id, title });
                                 }}
                                 title={intl.formatMessage({
