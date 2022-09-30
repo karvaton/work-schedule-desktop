@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { TypesOfSchedule } from "../../models/iSchedules";
@@ -19,6 +19,7 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
     const [firstDate, setFirstDate] = useState<Date | null>(inputSchedule?.firstDate ? 
         new Date(inputSchedule.firstDate.year, inputSchedule.firstDate.month, inputSchedule.firstDate.date)
         : null);
+    
     const [scheduleTypes, setScheduleTypes] = useState<TypesOfSchedule[]>(
         inputSchedule?.types ? inputSchedule?.types : [{
             id: 0,
@@ -36,6 +37,12 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
             value: 0
         }]
     );
+
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    function getFocus() {
+        inputRef.current?.focus();
+    }
 
     const dispatch = useAppDispatch();
     const schedulesActions = SchedulesSlice.actions;
@@ -83,11 +90,14 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
             </label>
             <input
                 type="text"
+                inputMode="text"
                 name="title"
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Name"
+                ref={inputRef}
+                onClickCapture={getFocus}
             />
             <label htmlFor="choose-date">
                 <FormattedMessage

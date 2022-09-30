@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import { TypesOfSchedule } from "../../models/iSchedules";
 
@@ -12,6 +12,8 @@ export default function ScheduleFiedlds({ removeField, updateFields, enableRemov
     const [title, setTitle] = useState<string>(types.title || '');
     const [value, setValue] = useState<number>(types.value || 0);
     const intl = useIntl();
+    const titleRef = useRef<HTMLInputElement>(null);
+    const valRef = useRef<HTMLInputElement>(null);
 
     function update(newTitle: string, newValue: number) {
         if (title !== newTitle) {
@@ -28,6 +30,7 @@ export default function ScheduleFiedlds({ removeField, updateFields, enableRemov
         <>
             <input
                 type="text"
+                inputMode="text"
                 className="schedule-field-title"
                 value={title}
                 onChange={e => update(e.target.value || '', value)}
@@ -35,12 +38,17 @@ export default function ScheduleFiedlds({ removeField, updateFields, enableRemov
                     id: "Work shift title",
                     defaultMessage: "Work shift title"
                 })}
+                ref={titleRef}
+                onClickCapture={() => titleRef.current?.focus()}
             />
             <input
                 type="text"
+                inputMode="decimal"
                 className="schedule-field-value"
                 value={value ? `${value}` : ''}
                 onChange={e => update(title, Number(e.target.value.match(/\d/g)?.join('')) || 0)}
+                ref={valRef}
+                onClickCapture={() => valRef.current?.focus()}
             />
             <button
                 onClick={removeField}

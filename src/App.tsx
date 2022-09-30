@@ -45,7 +45,6 @@ function App() {
                             className="menu-wrapper"
                             onClick={closeMenu}
                             style={{ 
-                                // width: transparent ? '100vw' : '0',
                                 zIndex: transparent ? '2' : '-1',
                                 backgroundColor: `rgba(0, 0, 0, ${transparent})`,
                             }}

@@ -73,7 +73,7 @@ export default function CalendarSettings() {
                                 window.location.reload();
                             }}
                         >
-                            <option value='en-US' defaultChecked>Англійська</option>
+                            <option value='en-US' defaultChecked>English</option>
                             <option value='uk'>Українська</option>
                         </select>
                     </div>
