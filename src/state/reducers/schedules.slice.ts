@@ -3,11 +3,13 @@ import { iSchedule, iSchedules } from "../../models/iSchedules";
 
 
 const SCHEDULES = 'schedules';
+const LAST_ACTIVE = 'active';
 const savedSchedules = localStorage.getItem(SCHEDULES) || '[]';
+const lastActive = localStorage.getItem(LAST_ACTIVE) || '0';
 
 const initialState: iSchedules = {
     schedules: JSON.parse(savedSchedules),
-    active: 0,
+    active: Number(lastActive),
     editing: 0,
 }
 
@@ -18,6 +20,7 @@ export const SchedulesSlice = createSlice({
     reducers: {
         activate(state, { payload }: PayloadAction<Pick<iSchedule, 'id'>>) {
             state.active = payload.id;
+            saveActiveState(payload.id);
         },
 
         add(state, { payload }: PayloadAction<Omit<iSchedule, 'id' | 'exceptions'>>) {
@@ -31,12 +34,14 @@ export const SchedulesSlice = createSlice({
             state.schedules.push(schedule);
             state.active = id;
             saveSchedulesState(JSON.stringify(state.schedules));
+            saveActiveState(id);
         },
 
         remove(state, { payload }: PayloadAction<Pick<iSchedule, 'id'>>) {
             state.schedules = state.schedules.filter(({ id }) => id !== payload.id);
             if (state.active === payload.id) {
                 state.active = 0;
+                saveActiveState(0);
             } 
             saveSchedulesState(JSON.stringify(state.schedules));
         },
@@ -76,6 +81,10 @@ export const SchedulesSlice = createSlice({
 
 function saveSchedulesState(state: string) {
     localStorage.setItem(SCHEDULES, state);
+}
+
+function saveActiveState(active: number) {
+    localStorage.setItem(LAST_ACTIVE, String(active));
 }
 
 

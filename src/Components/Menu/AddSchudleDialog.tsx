@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { TypesOfSchedule } from "../../models/iSchedules";
@@ -11,15 +11,15 @@ import { ReactComponent as CloseIcon } from '../../static/icons/close-svgrepo-co
 type AddSchudleDialogType = {
     closeFn: () => void
 }
-export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
+function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
     const intl = useIntl();
     const { editing, schedules } = useAppSelector(state => state.schedules);
     const inputSchedule = schedules.find(({ id }) => id === editing);
     const [title, setTitle] = useState<string>(inputSchedule?.title || '');
-    const [firstDate, setFirstDate] = useState<Date | null>(inputSchedule?.firstDate ? 
+    const [firstDate, setFirstDate] = useState<Date | null>(inputSchedule?.firstDate ?
         new Date(inputSchedule.firstDate.year, inputSchedule.firstDate.month, inputSchedule.firstDate.date)
         : null);
-    
+
     const [scheduleTypes, setScheduleTypes] = useState<TypesOfSchedule[]>(
         inputSchedule?.types ? inputSchedule?.types : [{
             id: 0,
@@ -38,18 +38,12 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
         }]
     );
 
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    function getFocus() {
-        inputRef.current?.focus();
-    }
-
     const dispatch = useAppDispatch();
     const schedulesActions = SchedulesSlice.actions;
 
     function setScheduleParams() {
         const [year, month, date] = [firstDate?.getFullYear(), firstDate?.getMonth(), firstDate?.getDate()];
-            
+
         if (title && year && month && date && scheduleTypes.length > 1) {
             const schedule = {
                 title,
@@ -81,9 +75,9 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
     }
 
     return (
-        <div className="add-schedule-dialog dialog">
+        <div className="add-schedule-dialog dialog" key="dialog">
             <label htmlFor="title">
-                <FormattedMessage 
+                <FormattedMessage
                     id="Schedule name"
                     defaultMessage="Schedule name"
                 />
@@ -96,8 +90,6 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Name"
-                ref={inputRef}
-                onClickCapture={getFocus}
             />
             <label htmlFor="choose-date">
                 <FormattedMessage
@@ -177,3 +169,5 @@ export default function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
         </div>
     );
 }
+
+export default AddSchudleDialog;
