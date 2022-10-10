@@ -124,14 +124,21 @@ function AddSchudleDialog({ closeFn }: AddSchudleDialogType) {
                         defaultMessage="Days"
                     />
                 </div>
+                <div className="schedule-field-header">
+                    <FormattedMessage
+                        id="Color"
+                        defaultMessage="Color"
+                    />
+                </div>
                 <div></div>
 
-                {scheduleTypes.map(({ id, title, value }) =>
+                {scheduleTypes.map(({ id, title, value, color }) =>
                     <ScheduleFields
                         key={id}
                         id={id}
                         title={title}
                         value={value}
+                        color={color}
                         removeField={() => setScheduleTypes(
                             scheduleTypes.filter(item => item.id !== id)
                         )}

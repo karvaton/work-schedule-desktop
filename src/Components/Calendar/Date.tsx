@@ -3,7 +3,7 @@ import { iDate } from "../../models/iDate";
 import ContextMenu, { Offset } from "../ContextMenu";
 import AddExceptionMenu from "./AddExceptionMenu";
 import { getTimestamp } from "../../utilities/schedule.utility";
-import palette, { Palette } from "../../utilities/palette.utility";
+import { Palette } from "../../utilities/palette.utility";
 import { useAppSelector } from "../../hooks/redux";
 
 
@@ -13,9 +13,10 @@ export interface DateType extends iDate {
     setActive: (value: iDate) => void
     type: number | null
     title?: string
+    color?: string | null
 }
 
-function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive, type, title }: DateType) {
+function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive, type, title, color }: DateType) {
     const currentDate = new Date();
     const isCurrentDate = currentDate.getFullYear() === year &&
         currentDate.getMonth() === month &&
@@ -37,13 +38,11 @@ function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive,
     if (isActive) dateClass += ' active-date';
     
     let backgroundColor = '';
-    if (type !== null) {
-        backgroundColor = palette.getColor(type)
+    if (color) {
+        backgroundColor = color;
         if (!isCurrentMonth) {
             backgroundColor = Palette.highlight(backgroundColor);
         };
-    } else {
-        backgroundColor = '';
     };
 
     return (

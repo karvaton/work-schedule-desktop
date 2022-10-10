@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { iDate } from "../../models/iDate";
 import { calendarSlice } from "../../state/reducers/calendar.slice";
 import { getDatesArray } from "../../utilities/calendar.utility"
+import palette from "../../utilities/palette.utility";
 import { iScheduleDate, transformScheduleDates } from "../../utilities/schedule.utility";
 import DateComponent from "./Date";
-
 
 
 type DatesType = {
@@ -105,6 +105,10 @@ export default function Dates({ month, year, firstWeekDay }: DatesType) {
                     setActive={setActiveDate}
                     type={item.type}
                     title={schedule?.types.find(({ id }) => id === item.type)?.title}
+                    color={item.type === null ? null : 
+                        item.type !== null && item.color ? item.color : 
+                        palette.getColor(item.type)
+                    }
                 />
             )}
         </div>

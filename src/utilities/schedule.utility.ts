@@ -4,6 +4,7 @@ import { iSchedule, TypesOfSchedule } from "../models/iSchedules";
 
 export interface iScheduleDate extends iDate {
     type: number | null
+    color?: string
 }
 
 export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSchedule) {
@@ -23,11 +24,12 @@ export function transformScheduleDates(dates: iDate[], inputScheduleData?: iSche
 
             if (dateTimestamp >= startDateTimestamp) {
                 let type = getType(types, daysLeft);
+                const color = types.find(({ id }) => id === type)?.color;
                 if (Object.keys(exceptions).map(item => Number(item)).indexOf(dateTimestamp) > -1) {
                     type = exceptions[dateTimestamp];
                 }
                 daysLeft = daysLeft > 1 ? daysLeft - 1 : countOfScheduleDays;
-                return { ...date, type }
+                return { ...date, type, color }
             }
             return { ...date, type: null }
         });

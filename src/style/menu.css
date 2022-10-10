@@ -139,7 +139,7 @@
 
 .schedule-fields {
     display: grid;
-    grid-template-columns: 1fr 30px 30px;
+    grid-template-columns: 1fr 30px 50px 30px;
     gap: 2px;
     margin-bottom: 3px;
 }

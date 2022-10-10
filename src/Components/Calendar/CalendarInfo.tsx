@@ -6,7 +6,7 @@ export default function CalendarInfo() {
     const { active, schedules } = useAppSelector(state => state.schedules);
     const [opened/* , toggle */] = useState<boolean>(true);
     const types = schedules.find(({ id }) => id === active)?.types || [];
-
+    
     return (
         <section className="calendar-info-container">
             {opened ? (
@@ -14,11 +14,11 @@ export default function CalendarInfo() {
                     {/* <h3 className="calendar-info-header">
                         Info
                     </h3> */}
-                    {types.map(({ id, title }) => (
+                    {types.map(({ id, title, color }) => (
                         <div key={id} className="calendar-info-item">
                             <div
                                 className="color-item-example"
-                                style={{ backgroundColor: palette.getColor(id) }}
+                                style={{ backgroundColor: color || palette.getColor(id) }}
                             ></div>
                             <span>{title}</span>
                         </div>

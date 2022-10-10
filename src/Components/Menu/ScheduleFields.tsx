@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
+import palette from "../../utilities/palette.utility";
 import { TypesOfSchedule } from "../../models/iSchedules";
 
 
@@ -9,21 +10,18 @@ interface iTypesOfSchedule extends TypesOfSchedule {
     enableRemoving?: boolean
 } 
 export default function ScheduleFiedlds({ removeField, updateFields, enableRemoving, id, ...types }: iTypesOfSchedule) {
+    const intl = useIntl();
     const [title, setTitle] = useState<string>(types.title || '');
     const [value, setValue] = useState<number>(types.value || 0);
-    const intl = useIntl();
+    const defaultColor = palette.getColor(id);
+    const [color, setColor] = useState<string>(types.color || defaultColor || '#ffffff');
 
-    function update(newTitle: string, newValue: number) {
-        if (title !== newTitle) {
-            setTitle(newTitle);
-            updateFields({ id, title: newTitle, value });
+    useEffect(() => {        
+        if (color !== defaultColor) {
+            palette.removeColor(id);
         }
-        if (value !== newValue) {
-            setValue(newValue);
-            updateFields({ id, title, value: newValue });
-        }
-    }
-
+    }, [id, color, defaultColor]);
+    
     return (
         <>
             <input
@@ -31,7 +29,11 @@ export default function ScheduleFiedlds({ removeField, updateFields, enableRemov
                 inputMode="text"
                 className="schedule-field-title"
                 value={title}
-                onChange={e => update(e.target.value || '', value)}
+                onChange={e => {
+                    const title = e.target.value || '';
+                    setTitle(title);
+                    updateFields({ id, title, value, color });
+                }}
                 placeholder={intl.formatMessage({
                     id: "Work shift title",
                     defaultMessage: "Work shift title"
@@ -42,10 +44,26 @@ export default function ScheduleFiedlds({ removeField, updateFields, enableRemov
                 inputMode="decimal"
                 className="schedule-field-value"
                 value={value ? `${value}` : ''}
-                onChange={e => update(title, Number(e.target.value.match(/\d/g)?.join('')) || 0)}
+                onChange={e => {
+                    const value = Number(e.target.value.match(/\d/g)?.join('')) || 0;
+                    setValue(value);
+                    updateFields({ id, title, value, color });
+                }}
+            />
+            <input
+                type="color" 
+                value={color}
+                onChange={e => {
+                    const color = e.target.value;
+                    setColor(color);
+                    updateFields({ id, title, value, color });
+                }}
             />
             <button
-                onClick={removeField}
+                onClick={() => {
+                    removeField();
+                    palette.removeColor(id);
+                }}
                 disabled={enableRemoving}
                 title={intl.formatMessage({
                     id: "Delete this field",

@@ -13,10 +13,18 @@ export class Palette {
     }
 
     getColor(key: number) {
-        if (!this.colorMap.get(key)) {
+        if (!this.colorMap.has(key)) {
             this.colorMap.set(key, this.colors.pop() || '#ffffff');
         }
         return this.colorMap.get(key);
+    }
+
+    removeColor(key: number) {
+        if (this.colorMap.has(key)) {
+            const color = this.colorMap.get(key);
+            this.colors.push(color);
+            this.colorMap.delete(key);
+        }
     }
 
     static highlight(hex: string) {

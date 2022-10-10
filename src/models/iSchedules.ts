@@ -4,7 +4,7 @@ export interface TypesOfSchedule {
     id: number
     title: string
     value: number
-    color?: `#${string}`
+    color?: string
 }
 
 export interface iSchedule {
