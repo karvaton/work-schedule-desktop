@@ -36,11 +36,9 @@ export class Palette {
 
     private static hexToRgb(hex: string) {
         let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) || [];
-
         let r = parseInt(result[1], 16);
         let g = parseInt(result[2], 16);
         let b = parseInt(result[3], 16);
-
         return new RGB(r, g, b);
     }
 
@@ -75,7 +73,7 @@ class RGB {
     constructor(rgb: string)
     constructor(r: number, g: number, b: number)
     constructor(ns: number | string, g: number = 0, b: number = 0) {
-        if (g && b) {
+        if (typeof ns === 'number') {
             this.r = +ns;
             this.g = g;
             this.b = b;
@@ -100,7 +98,7 @@ class HSL {
     constructor(hsl: string)
     constructor(h: number, s: number, l: number)
     constructor(ns: number | string, s: number = 0, l: number = 0) {
-        if (s && l) {
+        if (typeof ns === 'number') {
             this.h = +ns;
             this.s = s;
             this.l = l;

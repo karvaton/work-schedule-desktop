@@ -23,7 +23,7 @@ function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive,
         currentDate.getDate() === date;
     const [showContext, toggleContext] = useState<Offset | false>(false);
     const { active } = useAppSelector(state => state.schedules);
-
+    
     function toggleContextMenu(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         event.preventDefault();
         setActive({ date, month, year });

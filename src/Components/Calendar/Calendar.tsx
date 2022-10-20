@@ -10,9 +10,9 @@ import { ReactComponent as MenuIcon } from "../../static/icons/menu-svgrepo-com.
 
 
 type CalendarType = {
-    openMenuFn?: () => void
+    openMenu?: () => void
 }
-export default function Calendar({ openMenuFn }: CalendarType) {
+export default function Calendar({ openMenu }: CalendarType) {
     const lang = localStorage.getItem('lang') || navigator.language || 'en-US';
     const { active } = useAppSelector(state => state.schedules);
     const { month, year, settings: {firstWeekday} } = useAppSelector(state => state.calendar);
@@ -24,7 +24,7 @@ export default function Calendar({ openMenuFn }: CalendarType) {
         <div className="calendar-area">
             <div className="calendar-management">
                 {isMobile ? (
-                    <button className="open-menu-btn" onClick={openMenuFn}>
+                    <button className="open-menu-btn" onClick={openMenu}>
                         <MenuIcon height='28px' />
                     </button>
                 ) : null}

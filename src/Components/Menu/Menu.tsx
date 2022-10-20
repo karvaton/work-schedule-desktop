@@ -1,5 +1,5 @@
 import '../../style/menu.css';
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import AddSchudleDialog from './AddSchudleDialog';
 import Modal from '../Modal';
@@ -14,17 +14,15 @@ import { TouchscreenContext } from '../../App';
 
 
 type MenuType = {
-    opened?: number
-    closeMenuFn: () => void
-    openMenuFn: () => void
-    setDrag: (value: boolean) => void
-    setMoveStartX: (value: number) => void 
+    openedValue: number
+    closeMenu: () => void
     isDrag: boolean
-    moveStart: number
-    changeOpen: (value: number) => void
-    setTransparent: (value: number) => void
+    transparent: number
+    startDrag: (event: React.PointerEvent<HTMLElement>) => void
+    dragging: (event: React.PointerEvent<HTMLElement>) => void
+    finishDrag: (event: React.PointerEvent<HTMLElement>) => void
 }
-export default function Menu({ opened, closeMenuFn, openMenuFn, setDrag, setMoveStartX, isDrag, moveStart, changeOpen, setTransparent }: MenuType) {
+export default function Menu({ openedValue, closeMenu, isDrag, transparent, startDrag, dragging, finishDrag }: MenuType) {
     const isTouchScreen = useContext(TouchscreenContext);
     const [openedConfirmDialog, toggleConfirmDialog] = useState<Pick<iSchedule, "id" | "title"> | false>(false);
     const [openedAddScheduleDialog, toggleAddScheduleDialog] = useState<boolean>(false);
@@ -35,45 +33,34 @@ export default function Menu({ opened, closeMenuFn, openMenuFn, setDrag, setMove
     const [width] = useWindowSize();
     const isMobile = width < 700;
 
-    function pointerMove(start: number, end: number) {
-        const d = (end - start) / width;
-        changeOpen(d * 100 + 100 < 100 ? d * 100 + 100 : 100);
-        setTransparent(1 + d > .4 ? .4 : 1 + d > 0 ? 1 + d : 0);
-    }
-
     return (
         <>
+            {(isTouchScreen) ? (
+                (transparent) ? (
+                    <div
+                        className="menu-wrapper"
+                        onClick={closeMenu}
+                        style={{
+                            backgroundColor: `rgba(0, 0, 0, ${transparent})`,
+                        }}
+                        // onPointerDown={e => startDrag(e)}
+                        // onPointerUp={e => finishDrag(e)}
+                    ></div>
+                ) : null
+            ) : null}
             <ul
                 className="menu"
                 style={{
-                    transform: `translateX(${(opened ? opened : -10) - 100}%)`
+                    transform: `translateX(${(openedValue ? openedValue : -10) - 100}%)`
                 }} 
-                onPointerDown={e => {
-                    if (isTouchScreen) {
-                        setDrag(true);
-                        setMoveStartX(e.clientX);
-                    }
-                }}
-                onPointerMove={e => {
-                    isTouchScreen && isDrag && pointerMove(moveStart, e.clientX)
-                }}
-                onPointerUp={e => {
-                    const d = (moveStart - e.clientX) / width;
-                    
-                    if (d > .35) {
-                        closeMenuFn();
-                    } else {
-                        openMenuFn();
-                    }
-                    
-                    setDrag(false);
-                    setMoveStartX(0);
-                }}
+                onPointerDown={e => isTouchScreen && startDrag(e)}
+                onPointerMove={e => isTouchScreen && isDrag && dragging(e)}
+                onPointerUp={e => finishDrag(e)}
 
             >
                 {isMobile ? (
                     <li>
-                        <button className="open-menu-btn" onClick={closeMenuFn}>
+                        <button className="open-menu-btn" onClick={closeMenu}>
                             <MenuIcon height='28px' />
                         </button>
                     </li>

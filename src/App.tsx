@@ -13,25 +13,49 @@ function App() {
     const isTouchScreen = !!('ontouchstart' in window);
     const [width] = useWindowSize();
     const isMobile = width < 720;
-    const [open, changeOpen] = useState<number>(0);
+    const [menuOpenedValue, toggleMenu] = useState<number>(0);
+    const [menuStartOpenedValue, setMenuStartOpenedValue] = useState<number>(menuOpenedValue);
     const [moveStartX, setMoveStartX] = useState<number>(0);
     const [isDrag, setDrag] = useState<boolean>(false);
     const [transparent, setTransparent] = useState<number>(0);
 
     function getMove(start: number, end: number) {
-        const d = (end - start)/width;
-        setTransparent(d > 0.4 ? 0.4 : d > 0 ? d : 0);
-        changeOpen(d > 1 ? 100 : d > 0 ? Math.floor(d*100) : 0);
+        const d = ((start - end)/width) * 100;
+        const opened = menuStartOpenedValue - d;
+        const transparent = (menuStartOpenedValue - d) / 100;
+        toggleMenu(opened > 100 ? 100 : opened > 0 ? opened : 0);
+        setTransparent(transparent > .4 ? .4 : transparent > 0 ? transparent : 0);
     }
 
     function openMenu() {
         setTransparent(.4);
-        changeOpen(100);
+        toggleMenu(100);
     }
 
     function closeMenu() {
         setTransparent(0);
-        changeOpen(0);
+        toggleMenu(0);
+    }
+
+    function startDrag(e: React.PointerEvent<HTMLElement>) {
+        setDrag(true);
+        setMoveStartX(e.clientX);
+        setMenuStartOpenedValue(menuOpenedValue);
+    }
+
+    function dragging(e: React.PointerEvent<HTMLElement>) {
+        getMove(moveStartX, e.clientX);
+    }
+
+    function finishDrag(e: React.PointerEvent<HTMLElement>, d = .5) {
+        if ((e.clientX - moveStartX) / width > d) {
+            openMenu();
+        } else {
+            closeMenu();
+        }
+        setDrag(false);
+        setMoveStartX(0);
+        setMenuStartOpenedValue(menuOpenedValue);
     }
     
     return (
@@ -40,57 +64,22 @@ function App() {
         >
             <TouchscreenContext.Provider value={isTouchScreen}>
                 <aside>
-                    {(isTouchScreen) ? (
-                        <div
-                            className="menu-wrapper"
-                            onClick={closeMenu}
-                            style={{ 
-                                zIndex: transparent ? '2' : '-1',
-                                backgroundColor: `rgba(0, 0, 0, ${transparent})`,
-                            }}
-                            onPointerDown={e => {
-                                if (isTouchScreen) {
-                                    setDrag(true);
-                                    setMoveStartX(e.clientX);
-                                }
-                            }}
-                            onPointerUp={() => {
-                                setDrag(false);
-                                setMoveStartX(0);
-                            }}
-                        ></div>
-                    ) : null}
                     <Menu
-                        opened={isMobile ? open : 100}
-                        closeMenuFn={closeMenu}
-                        openMenuFn={openMenu}
-                        setDrag={(value) => setDrag(value)}
-                        setMoveStartX={(value) => setMoveStartX(value)}
+                        openedValue={isMobile ? menuOpenedValue : 100}
+                        closeMenu={closeMenu}
                         isDrag={isDrag}
-                        moveStart={moveStartX}
-                        changeOpen={value => changeOpen(value)} 
-                        setTransparent={value => setTransparent(value)} 
+                        transparent={transparent} 
+                        startDrag={startDrag}
+                        dragging={dragging}
+                        finishDrag={finishDrag}
                     />
                 </aside>
                 <main
-                    onPointerDown={e => {
-                        if (isTouchScreen) {
-                            setDrag(true);
-                            setMoveStartX(e.clientX);
-                        }
-                    }}
-                    onPointerMove={e => isTouchScreen && isDrag && getMove(moveStartX, e.clientX)}
-                    onPointerUp={e => {
-                        if ((e.clientX - moveStartX)/width > .5) {
-                            openMenu();
-                        } else {
-                            closeMenu();
-                        }
-                        setDrag(false);
-                        setMoveStartX(0);
-                    }}
+                    onPointerDown={e => isTouchScreen && startDrag(e)}
+                    onPointerMove={e => isTouchScreen && isDrag && dragging(e)}
+                    onPointerUp={e => finishDrag(e)}
                 >
-                    <Calendar openMenuFn={() => openMenu()}/>
+                    <Calendar openMenu={openMenu}/>
                 </main>
             </TouchscreenContext.Provider>
         </div>

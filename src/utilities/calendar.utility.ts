@@ -79,18 +79,15 @@ export function createYearArray(currentYear = new Date().getFullYear()) {
 }
 
 
-type MonthFormatType = "long" | "short" | "narrow" | undefined
 
-export function createWeekDaysArray(formatType: MonthFormatType = 'long') {
+export function createWeekDaysArray(formatType: Intl.DateTimeFormatOptions['weekday'] = 'long') {
     const date = new Date(2022, 4);
     return Array(7).fill(0).map((item, i) => new Intl
         .DateTimeFormat(lang, { weekday: formatType })
         .format(date.setDate(i + 1)));
 }
 
-type WeekDaysFormatType = "long" | "short" | "narrow" | "numeric" | "2-digit" | undefined
-
-export function createMonthArray(formatType: WeekDaysFormatType = 'long') {
+export function createMonthArray(formatType: Intl.DateTimeFormatOptions['month'] = 'long') {
     const date = new Date();
     return Array(12).fill(0).map((item, i) => new Intl
         .DateTimeFormat(lang, { month: formatType })

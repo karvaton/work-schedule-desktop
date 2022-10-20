@@ -50,7 +50,7 @@ function getDatesDiff(start: iDate, current: iDate) {
 }
 
 
-function getType(types: TypesOfSchedule[], initValue: number): number | null {
+function getType(types: TypesOfSchedule[], initValue: number) {
     let type: number | null = null;
     let prevVal = 0;
     for (let i = types.length - 1; i >= 0; i--) {
