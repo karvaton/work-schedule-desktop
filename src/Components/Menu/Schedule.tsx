@@ -16,7 +16,7 @@ interface iSchedileListItem extends iSchedulePreview {
     openEdit: () => void
     openRemove: (value: Pick<iSchedule, 'id' | 'title'>) => void
 }
-export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListItem) {
+export default function Schedule({ id, title, openRemove, openEdit }: iSchedileListItem) {
     const isTouchScreen = useContext<boolean>(TouchscreenContext);
     const [width] = useWindowSize();
     const isMobile = width < 600;
@@ -39,47 +39,65 @@ export function ScheduleLI({ id, title, openRemove, openEdit }: iSchedileListIte
                 <div className="schedule-manage-btns-wrapper">
                     <button
                         className="schedule-manage-btns-more"
-                        onClick={() => setShowMenu(!showMenu)}
+                        onClick={e => {
+                            e.stopPropagation();
+                            setShowMenu(!showMenu);
+                        }}
                     >
                         <MoreIcon height='25px'/>
                     </button>
                     {showMenu ? (
-                        <div className="schedule-manage-btns-collapse">
-                            <button
-                                className="schedule-btn-edit"
-                                onClick={() => {
-                                    setShowMenu(false);
-                                    dispatch(scheduleActions.startEditing({ id }));
-                                    openEdit();
-                                }}
-                                title={intl.formatMessage({
-                                    id: "Edit this schedule",
-                                    defaultMessage: "Edit this schedule"
-                                })}
-                            >
-                                <FormattedMessage
-                                    id="Edit"
-                                    defaultMessage="Edit"
-                                />
-                            </button>
-                            <button
-                                className="schedule-btn-remove"
+                        <>
+                            <div className="schedule-manage-btns-collapse">
+                                <button
+                                    className="schedule-btn-edit"
+                                    onClick={() => {
+                                        setShowMenu(false);
+                                        dispatch(scheduleActions.startEditing({ id }));
+                                        openEdit();
+                                    }}
+                                    title={intl.formatMessage({
+                                        id: "Edit this schedule",
+                                        defaultMessage: "Edit this schedule"
+                                    })}
+                                >
+                                    <FormattedMessage
+                                        id="Edit"
+                                        defaultMessage="Edit"
+                                    />
+                                </button>
+                                <button
+                                    className="schedule-btn-remove"
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        setShowMenu(false);
+                                        openRemove({ id, title });
+                                    }}
+                                    title={intl.formatMessage({
+                                        id: "Delete this schedule",
+                                        defaultMessage: "Delete this schedule"
+                                    })}
+                                >
+                                    <FormattedMessage
+                                        id="Remove"
+                                        defaultMessage="Remove"
+                                    />
+                                </button>
+                            </div>
+                            <div
+                                className="schedule-manage-btns-collapse-wrapper"
                                 onClick={e => {
+                                    // e.preventDefault();
                                     e.stopPropagation();
                                     setShowMenu(false);
-                                    openRemove({ id, title });
                                 }}
-                                title={intl.formatMessage({
-                                    id: "Delete this schedule",
-                                    defaultMessage: "Delete this schedule"
-                                })}
-                            >
-                                <FormattedMessage
-                                    id="Remove"
-                                    defaultMessage="Remove"
-                                />
-                            </button>
-                        </div>
+                                onContextMenu={e => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowMenu(false);
+                                }}
+                            ></div>
+                        </>
                     ) : null}
                 </div>
             ) : (

@@ -60,6 +60,7 @@
     display: flex;
     height: 35px;
     position: relative;
+    z-index: 2;
 }
 
 .calendar-settings button {
@@ -92,6 +93,16 @@
     display: flex;
     flex-direction: column;
     box-shadow: 2px 2px 5px -3px #000;
+    z-index: 2;
+    user-select: none;
+}
+
+.settings-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
     z-index: 1;
 }
 

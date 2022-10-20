@@ -47,15 +47,23 @@ function App() {
         getMove(moveStartX, e.clientX);
     }
 
-    function finishDrag(e: React.PointerEvent<HTMLElement>, d = .5) {
-        if ((e.clientX - moveStartX) / width > d) {
-            openMenu();
-        } else {
-            closeMenu();
+    /** 
+    * @param edge - number between 0 and 1
+    */
+    function finishDrag(e: React.PointerEvent<HTMLElement>, edge = .5) {
+        edge = edge > 1 ? 1 : edge > 0 ? edge : 0;
+        const d = (e.clientX - moveStartX) / width;
+        
+        if (d) {
+            if (menuOpenedValue > edge * 100) {
+                openMenu();
+            } else {
+                closeMenu();
+            }
+            setDrag(false);
+            setMoveStartX(0);
+            setMenuStartOpenedValue(menuOpenedValue);
         }
-        setDrag(false);
-        setMoveStartX(0);
-        setMenuStartOpenedValue(menuOpenedValue);
     }
     
     return (

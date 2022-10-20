@@ -6,7 +6,7 @@ import Modal from '../Modal';
 import { SchedulesSlice } from '../../state/reducers/schedules.slice';
 import ConfirmDialog from './Confirm';
 import { iSchedule } from '../../models/iSchedules';
-import { ScheduleLI } from './ScheduleListItem';
+import Schedule from './Schedule';
 import { FormattedMessage, useIntl } from 'react-intl';
 import useWindowSize from '../../hooks/useWindowSize';
 import { ReactComponent as MenuIcon } from "../../static/icons/menu-svgrepo-com.svg";
@@ -20,7 +20,7 @@ type MenuType = {
     transparent: number
     startDrag: (event: React.PointerEvent<HTMLElement>) => void
     dragging: (event: React.PointerEvent<HTMLElement>) => void
-    finishDrag: (event: React.PointerEvent<HTMLElement>) => void
+    finishDrag: (event: React.PointerEvent<HTMLElement>, d: number) => void
 }
 export default function Menu({ openedValue, closeMenu, isDrag, transparent, startDrag, dragging, finishDrag }: MenuType) {
     const isTouchScreen = useContext(TouchscreenContext);
@@ -55,8 +55,7 @@ export default function Menu({ openedValue, closeMenu, isDrag, transparent, star
                 }} 
                 onPointerDown={e => isTouchScreen && startDrag(e)}
                 onPointerMove={e => isTouchScreen && isDrag && dragging(e)}
-                onPointerUp={e => finishDrag(e)}
-
+                onPointerUp={e => finishDrag(e, .65)}
             >
                 {isMobile ? (
                     <li>
@@ -66,7 +65,7 @@ export default function Menu({ openedValue, closeMenu, isDrag, transparent, star
                     </li>
                 ) : null}
                 {schedules.map(({ id, title }) => 
-                    <ScheduleLI
+                    <Schedule
                         key={id}
                         id={id}
                         title={title}
