@@ -5,6 +5,7 @@ import AddExceptionMenu from "./AddExceptionMenu";
 import { getTimestamp } from "../../utilities/schedule.utility";
 import { Palette } from "../../utilities/palette.utility";
 import { useAppSelector } from "../../hooks/redux";
+import Paper from "@mui/material/Paper";
 
 
 export interface DateProps extends iDate {
@@ -45,13 +46,23 @@ function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive,
         };
     };
 
+    let borderTopColor = '#eee';
+
     return (
-        <div
-            className={dateClass}
+        <Paper
+            square
+            elevation={0}
+            // className={dateClass}
             onClick={() => setActive({ date, month, year })}
             onContextMenu={e => toggleContextMenu(e)}
             style={{ backgroundColor }}
             title={title}
+            sx={{
+                height: '5rem',
+                borderTop: 'solid 2px',
+                borderTopColor,
+                textAlign: 'end',
+            }}
         >
             {date < 10 ? `0${date}` : date}
             {(active && showContext) ? (
@@ -63,7 +74,7 @@ function DateComponent({ date, month, year, isCurrentMonth, isActive, setActive,
                     />
                 </ContextMenu>
             ) : null}
-        </div>
+        </Paper>
     )
 };
 

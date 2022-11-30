@@ -1,108 +1,105 @@
-import '../../style/menu.css';
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import AddSchudleDialog from './AddSchudleDialog';
-import Modal from '../Modal';
 import { SchedulesSlice } from '../../state/reducers/schedules.slice';
-import ConfirmDialog from './Confirm';
 import { iSchedule } from '../../models/iSchedules';
-import Schedule from './Schedule';
-import { FormattedMessage, useIntl } from 'react-intl';
-import useWindowSize from '../../hooks/useWindowSize';
-import { ReactComponent as MenuIcon } from "../../static/icons/menu-svgrepo-com.svg";
-import { TouchscreenContext } from '../../App';
+import { FormattedMessage } from 'react-intl';
+import Schedule from './Schedule-new';
+
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Toolbar from '@mui/material/Toolbar';
+import AddIcon from '@mui/icons-material/Add';
 
 
-type MenuType = {
-    openedValue: number
-    closeMenu: () => void
-    isDrag: boolean
-    transparent: number
-    startDrag: (event: React.PointerEvent<HTMLElement>) => void
-    dragging: (event: React.PointerEvent<HTMLElement>) => void
-    finishDrag: (event: React.PointerEvent<HTMLElement>, d: number) => void
+export const drawerWidth = 240;
+
+interface Props {
+    window?: () => Window;
+    open: boolean;
+    setOpen: (open: boolean) => void;
 }
-export default function Menu({ openedValue, closeMenu, isDrag, transparent, startDrag, dragging, finishDrag }: MenuType) {
-    const isTouchScreen = useContext(TouchscreenContext);
+
+export default function MenuDrawer({ window, setOpen, open }: Props) {
     const [openedConfirmDialog, toggleConfirmDialog] = useState<Pick<iSchedule, "id" | "title"> | false>(false);
     const [openedAddScheduleDialog, toggleAddScheduleDialog] = useState<boolean>(false);
     const scheduleActions = SchedulesSlice.actions;
     const { schedules } = useAppSelector(state => state.schedules);
     const dispatch = useAppDispatch();
-    const intl = useIntl();
-    const [width] = useWindowSize();
-    const isMobile = width < 700;
 
-    return (
-        <>
-            {(isTouchScreen) ? (
-                (transparent) ? (
-                    <div
-                        className="menu-wrapper"
-                        onClick={closeMenu}
-                        style={{
-                            backgroundColor: `rgba(0, 0, 0, ${transparent})`,
-                        }}
-                        // onPointerDown={e => startDrag(e)}
-                        // onPointerUp={e => finishDrag(e)}
-                    ></div>
-                ) : null
-            ) : null}
-            <ul
-                className="menu"
-                style={{
-                    transform: `translateX(${(openedValue ? openedValue : -10) - 100}%)`
-                }} 
-                onPointerDown={e => isTouchScreen && startDrag(e)}
-                onPointerMove={e => isTouchScreen && isDrag && dragging(e)}
-                onPointerUp={e => finishDrag(e, .65)}
-            >
-                {isMobile ? (
-                    <li>
-                        <button className="open-menu-btn" onClick={closeMenu}>
-                            <MenuIcon height='28px' />
-                        </button>
-                    </li>
-                ) : null}
-                {schedules.map(({ id, title }) => 
+    const drawer = (
+        <div>
+            <Toolbar />
+            <Divider />
+            <List>
+                {schedules.map(({ id, title }) =>
                     <Schedule
                         key={id}
                         id={id}
                         title={title}
                         openEdit={() => toggleAddScheduleDialog(true)}
-                        openRemove={toggleConfirmDialog} 
+                        openRemove={toggleConfirmDialog}
                     />
                 )}
-                <li
-                    className="add-schedule schedules"
-                    onClick={() => toggleAddScheduleDialog(true)}
+                <ListItem>
+                    <ListItemButton>
+                        <ListItemText primary={
+                            <FormattedMessage
+                                id='Add schedule'
+                                defaultMessage='Add schedule'
+                            />
+                        } />
+                        <ListItemIcon>
+                            <AddIcon />
+                        </ListItemIcon>
+                    </ListItemButton>
+                </ListItem>
+            </List>
+        </div>
+    );
+
+    const container = window !== undefined ? () => window().document.body : undefined;
+
+    return (
+        <>
+            <Box
+                component="nav"
+                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                aria-label="schedule list"
+            >
+                <SwipeableDrawer
+                    container={container}
+                    variant="temporary"
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    onOpen={() => setOpen(true)}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
                 >
-                    <FormattedMessage
-                        id='Add schedule'
-                        defaultMessage='Add schedule'
-                    /> +
-                </li>
-                {openedConfirmDialog ? 
-                    <Modal darkBackground opened={!!openedConfirmDialog.id}>
-                        <ConfirmDialog
-                            question={intl.formatMessage({
-                                id: "Delete schedule",
-                                defaultMessage: `Delete schedule "{title}"?`
-                            }, {
-                                title: openedConfirmDialog.title 
-                            })}
-                            onAccept={() => {
-                                dispatch(scheduleActions.remove({ id: openedConfirmDialog.id }));
-                                toggleConfirmDialog(false);
-                            }}
-                            onDecline={() => toggleConfirmDialog(false)}
-                        />
-                    </Modal> 
-                : null}
-            </ul>
-            <Modal darkBackground opened={openedAddScheduleDialog}>
-                <AddSchudleDialog closeFn={() => toggleAddScheduleDialog(false)} />
-            </Modal>
+                    {drawer}
+                </SwipeableDrawer>
+                <Drawer
+                    variant="permanent"
+                    sx={{
+                        display: { xs: 'none', sm: 'block' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                    open
+                >
+                    {drawer}
+                </Drawer >
+            </Box>
         </>
-    )
+    );
 }

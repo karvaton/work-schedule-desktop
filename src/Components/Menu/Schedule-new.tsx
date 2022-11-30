@@ -8,8 +8,6 @@ import { useContext, useState } from "react";
 import { TouchscreenContext } from "../../App";
 import { ReactComponent as MoreIcon } from "../../static/icons/dot-menu-more-svgrepo-com.svg";
 import useWindowSize from "../../hooks/useWindowSize";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 
 
 type iSchedulePreview = Pick<iSchedule, 'id' | 'title'>
@@ -29,14 +27,14 @@ export default function Schedule({ id, title, openRemove, openEdit }: iSchedileL
     const [showMenu, setShowMenu] = useState(false);
 
     return (
-        <ListItem
+        <li
             key={id}
             className={"schedules" + (id === active ? ' schedule-active' : "")}
             onClick={() => 
                 dispatch(scheduleActions.activate({ id }))
             }
         >
-            <ListItemText>{title}</ListItemText>
+            <span>{title}</span>
             {(isTouchScreen && isMobile) ? (
                 <div className="schedule-manage-btns-wrapper">
                     <button
@@ -132,6 +130,6 @@ export default function Schedule({ id, title, openRemove, openEdit }: iSchedileL
                     </button>
                 </div>
             )}
-        </ListItem>
+        </li>
     );
 }

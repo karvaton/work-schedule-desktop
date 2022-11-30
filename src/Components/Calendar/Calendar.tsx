@@ -4,9 +4,9 @@ import useWindowSize from '../../hooks/useWindowSize';
 import CalendarSettings from './CalendarSettings';
 import CalendarSwicther from './CalendarSwitch';
 import Dates from './Dates';
-import WeekDays from './WeekDays';
 import CalendarInfo from './CalendarInfo';
 import { ReactComponent as MenuIcon } from "../../static/icons/menu-svgrepo-com.svg";
+import WeekDays from './WeekDays';
 
 
 type CalendarType = {
