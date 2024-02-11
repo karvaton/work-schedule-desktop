@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { SchedulesSlice } from '../../state/reducers/schedules.slice';
 import { iSchedule } from '../../models/iSchedules';
-import { FormattedMessage } from 'react-intl';
 import Schedule from './Schedule-new';
+import AddSchudleDialog from './AddSchudleDialog-new';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -48,7 +49,7 @@ export default function MenuDrawer({ window, setOpen, open }: Props) {
                     />
                 )}
                 <ListItem>
-                    <ListItemButton>
+                    <ListItemButton onClick={() => toggleAddScheduleDialog(true)}>
                         <ListItemText primary={
                             <FormattedMessage
                                 id='Add schedule'
@@ -65,7 +66,7 @@ export default function MenuDrawer({ window, setOpen, open }: Props) {
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
-
+    
     return (
         <>
             <Box
@@ -100,6 +101,10 @@ export default function MenuDrawer({ window, setOpen, open }: Props) {
                     {drawer}
                 </Drawer >
             </Box>
+            <AddSchudleDialog
+                open={openedAddScheduleDialog}
+                closeFn={() => toggleAddScheduleDialog(false)} 
+            />
         </>
     );
 }
